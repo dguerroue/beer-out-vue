@@ -6,20 +6,20 @@
           @click="clickOnOverlayHandler"
           class="bottom-sheet__overlay"
           v-show="overlay && showSheet"
-        />
+        ></div>
       </transition>
       <div ref="bottomSheetContent" :class="sheetContentClasses">
         <header ref="bottomSheetHeader" class="bottom-sheet__header">
-          <div class="bottom-sheet__draggable-area" ref="bottomSheetDraggableArea">
+          <div class="bottom-sheet__draggable-area">
             <div class="bottom-sheet__draggable-thumb"></div>
           </div>
-          <slot name="header" />
+          <slot name="header"></slot>
         </header>
         <main ref="bottomSheetMain" class="bottom-sheet__main">
-          <slot />
+          <slot ></slot>
         </main>
         <footer ref="bottomSheetFooter" class="bottom-sheet__footer">
-          <slot name="footer" />
+          <slot name="footer" ></slot>
         </footer>
       </div>
     </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import Hammer from 'hammerjs'
 
 /**
@@ -43,12 +43,17 @@ interface IProps {
   canSwipe?: boolean
 }
 
+const open = defineModel('open', {
+  type: Boolean,
+  default: false
+})
+
 /**
  * Bottom sheet props interface
  */
 const props = withDefaults(defineProps<IProps>(), {
   overlay: true,
-  overlayColor: '#0000004D',
+  overlayColor: 'rgba(0, 0, 0, 0.4)',
   maxWidth: 640,
   transitionDuration: 0.2,
   overlayClickClose: true,
@@ -93,7 +98,6 @@ const bottomSheetHeader = ref<HTMLElement | null>(null)
 const bottomSheetMain = ref<HTMLElement | null>(null)
 const bottomSheetFooter = ref<HTMLElement | null>(null)
 const bottomSheetContent = ref<HTMLElement | SVGElement>()
-const bottomSheetDraggableArea = ref<HTMLElement | SVGElement>()
 
 /**
  * Close bottom sheet when escape key is pressed
@@ -106,7 +110,7 @@ window.addEventListener('keyup', (event: KeyboardEvent) => {
     isFocused(event.target as HTMLElement)
 
   if (event.key === 'Escape' && !isSheetElementFocused) {
-    close()
+    closeBottomSheet()
   }
 })
 
@@ -175,7 +179,7 @@ const initHeight = async () => {
  * @param type
  */
 
-const dragHandler = (event: HammerInput, type: 'area' | 'main') => {
+const dragHandler = (event: HammerInput) => {
   if (props.canSwipe) {
     isDragging.value = true
 
@@ -184,35 +188,26 @@ const dragHandler = (event: HammerInput, type: 'area' | 'main') => {
     }
 
     if (event.deltaY > 0) {
-      if (type === 'main' && event.type === 'panup') {
-        translateValue.value = pixelToVh(event.deltaY)
-      }
-
-      if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
-        translateValue.value = pixelToVh(event.deltaY)
-      }
-
-      if (type === 'area') {
-        translateValue.value = pixelToVh(event.deltaY)
-      }
-
       if (event.type === 'panup') {
+        translateValue.value = pixelToVh(event.deltaY);
+
         emit('dragging-up')
       }
-      if (event.type === 'pandown') {
+
+      if (event.type === 'pandown' && contentScroll.value === 0) {
+        translateValue.value = pixelToVh(event.deltaY);
+
         emit('dragging-down')
       }
     }
 
     if (event.isFinal) {
-      bottomSheetMain.value!.removeEventListener('touchmove', preventDefault)
+      bottomSheetContent.value!.removeEventListener('touchmove', preventDefault)
 
-      if (type === 'main') {
-        contentScroll.value = bottomSheetMain.value!.scrollTop
-      }
+      contentScroll.value = bottomSheetContent.value!.scrollTop;
       isDragging.value = false
       if (translateValue.value >= 10) {
-        close()
+        closeBottomSheet()
       } else {
         translateValue.value = 0
       }
@@ -229,26 +224,18 @@ nextTick(() => {
   /**
    * Create instances of Hammerjs
    */
-  if(bottomSheetDraggableArea.value && bottomSheetMain.value) {
-    const hammerAreaInstance = new Hammer(bottomSheetDraggableArea.value, {
-      inputClass: Hammer.TouchMouseInput,
-      recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
-    })
+  if(bottomSheetContent.value) {
   
-    const hammerMainInstance = new Hammer(bottomSheetMain.value, {
+    const hammerInstance = new Hammer(bottomSheetContent.value, {
       inputClass: Hammer.TouchMouseInput,
       recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
     })
 
     /**
      * Set events and handlers to hammerjs instances
-     */
-    hammerAreaInstance.on('panstart panup pandown panend', (e: HammerInput) => {
-      dragHandler(e, 'area')
-    })
-  
-    hammerMainInstance.on('panstart panup pandown panend', (e: HammerInput) => {
-      dragHandler(e, 'main')
+     */  
+    hammerInstance.on('panstart panup pandown panend', (event: HammerInput) => {
+      dragHandler(event)
     })
   }
 
@@ -257,23 +244,25 @@ nextTick(() => {
 /**
  * Open bottom sheet method
  */
-const open = () => {
+const openBottomSheet = () => {
   translateValue.value = 0
   document.documentElement.style.overflowY = 'hidden'
   document.documentElement.style.overscrollBehavior = 'none'
   showSheet.value = true
+  open.value = true
   emit('opened')
 }
 
 /**
  * Close bottom sheet method
  */
-const close = async () => {
+const closeBottomSheet = async () => {
   showSheet.value = false
   translateValue.value = 100
   setTimeout(() => {
     document.documentElement.style.overflowY = 'auto'
     document.documentElement.style.overscrollBehavior = ''
+    open.value = false
     emit('closed')
   }, props.transitionDuration * 1000)
 }
@@ -283,7 +272,7 @@ const close = async () => {
  */
 const clickOnOverlayHandler = () => {
   if (props.overlayClickClose) {
-    close()
+    closeBottomSheet()
   }
 }
 
@@ -292,8 +281,7 @@ const clickOnOverlayHandler = () => {
  * @param pixel
  */
 const pixelToVh = (pixel: number) => {
-  const height =
-    props.maxHeight && props.maxHeight <= sheetHeight.value ? props.maxHeight : sheetHeight.value
+  const height = props.maxHeight && props.maxHeight <= sheetHeight.value ? props.maxHeight : sheetHeight.value
   return (pixel / height) * 100
 }
 
@@ -301,6 +289,17 @@ const pixelToVh = (pixel: number) => {
  * Define public methods
  */
 defineExpose({ open, close })
+
+// Add watcher on model value
+watch(() => open.value, (value) => {
+  if (value) {
+    console.log('open value changed', open.value)
+    openBottomSheet()
+  } else {
+    console.log('open value changed', open.value)
+    closeBottomSheet()
+  }
+})
 </script>
 
 <style lang="scss" scoped>
