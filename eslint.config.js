@@ -1,4 +1,5 @@
 import pluginVue from 'eslint-plugin-vue'
+import pluginTailwindCSS from 'eslint-plugin-tailwindcss'
 import vueTsEslintConfig from '@vue/eslint-config-typescript'
 import pluginVitest from '@vitest/eslint-plugin'
 import pluginCypress from 'eslint-plugin-cypress/flat'
@@ -17,6 +18,12 @@ export default [
 
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
+  ...pluginTailwindCSS.configs['flat/recommended'],
+  {
+    rules: {
+      'tailwindcss/no-custom-classname': 'off',
+    },
+  },
   
   {
     ...pluginVitest.configs.recommended,
