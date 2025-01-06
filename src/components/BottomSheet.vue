@@ -10,23 +10,20 @@
       </transition>
       <div ref="bottomSheetContent" :class="sheetContentClasses">
         <header ref="bottomSheetHeader" class="bottom-sheet__header">
-          <div class="bottom-sheet__draggable-area">
+          <div class="bottom-sheet__draggable-area" ref="bottomSheetDraggableArea">
             <div class="bottom-sheet__draggable-thumb"></div>
           </div>
-          <slot name="header"></slot>
         </header>
         <main ref="bottomSheetMain" class="bottom-sheet__main">
           <slot ></slot>
         </main>
-        <footer ref="bottomSheetFooter" class="bottom-sheet__footer">
-          <slot name="footer" ></slot>
-        </footer>
       </div>
     </div>
   </Teleport>
 </template>
 
 <script setup lang="ts">
+// INSPIRED BY: https://github.com/vaban-ru/vue-bottom-sheet
 import { computed, nextTick, ref, watch } from 'vue'
 import Hammer from 'hammerjs'
 
@@ -94,10 +91,9 @@ const contentScroll = ref(0)
  * Refs to all sheet HTML elements
  */
 const bottomSheet = ref<HTMLElement | null>(null)
-const bottomSheetHeader = ref<HTMLElement | null>(null)
 const bottomSheetMain = ref<HTMLElement | null>(null)
-const bottomSheetFooter = ref<HTMLElement | null>(null)
-const bottomSheetContent = ref<HTMLElement | SVGElement>()
+const bottomSheetContent = ref<HTMLElement | null>(null)
+const bottomSheetDraggableArea = ref<HTMLElement | null>(null)
 
 /**
  * Close bottom sheet when escape key is pressed
@@ -167,10 +163,7 @@ const maxWidthString = computed(() => {
  */
 const initHeight = async () => {
   await nextTick()
-  sheetHeight.value =
-    bottomSheetHeader.value!.offsetHeight +
-    bottomSheetMain.value!.clientHeight +
-    bottomSheetFooter.value!.offsetHeight
+  sheetHeight.value = bottomSheetMain.value!.clientHeight
 }
 
 /**
@@ -179,7 +172,7 @@ const initHeight = async () => {
  * @param type
  */
 
-const dragHandler = (event: HammerInput) => {
+const dragHandler = (event: HammerInput, type: 'area' | 'main') => {
   if (props.canSwipe) {
     isDragging.value = true
 
@@ -188,23 +181,32 @@ const dragHandler = (event: HammerInput) => {
     }
 
     if (event.deltaY > 0) {
-      if (event.type === 'panup') {
-        translateValue.value = pixelToVh(event.deltaY);
-
-        emit('dragging-up')
+      if (type === 'main' && event.type === 'panup') {
+        translateValue.value = pixelToVh(event.deltaY)
       }
 
-      if (event.type === 'pandown' && contentScroll.value === 0) {
-        translateValue.value = pixelToVh(event.deltaY);
+      if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
+        translateValue.value = pixelToVh(event.deltaY)
+      }
 
+      if (type === 'area') {
+        translateValue.value = pixelToVh(event.deltaY)
+      }
+
+      if (event.type === 'panup') {
+        emit('dragging-up')
+      }
+      if (event.type === 'pandown') {
         emit('dragging-down')
       }
     }
 
     if (event.isFinal) {
-      bottomSheetContent.value!.removeEventListener('touchmove', preventDefault)
+      bottomSheetMain.value!.removeEventListener('touchmove', preventDefault)
 
-      contentScroll.value = bottomSheetContent.value!.scrollTop;
+      if (type === 'main') {
+        contentScroll.value = bottomSheetMain.value!.scrollTop
+      }
       isDragging.value = false
       if (translateValue.value >= 10) {
         closeBottomSheet()
@@ -224,21 +226,30 @@ nextTick(() => {
   /**
    * Create instances of Hammerjs
    */
-  if(bottomSheetContent.value) {
-  
-    const hammerInstance = new Hammer(bottomSheetContent.value, {
+  if(bottomSheetDraggableArea.value && bottomSheetMain.value) {
+    // TODO: replace hammerJS ?
+
+    const hammerAreaInstance = new Hammer(bottomSheetDraggableArea.value, {
       inputClass: Hammer.TouchMouseInput,
       recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
     })
-
+  
+    const hammerMainInstance = new Hammer(bottomSheetMain.value, {
+      inputClass: Hammer.TouchMouseInput,
+      recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
+    })
+  
     /**
      * Set events and handlers to hammerjs instances
-     */  
-    hammerInstance.on('panstart panup pandown panend', (event: HammerInput) => {
-      dragHandler(event)
+     */
+    hammerAreaInstance.on('panstart panup pandown panend', (e: HammerInput) => {
+      dragHandler(e, 'area')
+    })
+  
+    hammerMainInstance.on('panstart panup pandown panend', (e: HammerInput) => {
+      dragHandler(e, 'main')
     })
   }
-
 })
 
 /**
@@ -248,7 +259,7 @@ const openBottomSheet = () => {
   translateValue.value = 0
   document.documentElement.style.overflowY = 'hidden'
   document.documentElement.style.overscrollBehavior = 'none'
-  showSheet.value = true
+  showSheet.value = true;
   open.value = true
   emit('opened')
 }
@@ -281,22 +292,21 @@ const clickOnOverlayHandler = () => {
  * @param pixel
  */
 const pixelToVh = (pixel: number) => {
-  const height = props.maxHeight && props.maxHeight <= sheetHeight.value ? props.maxHeight : sheetHeight.value
+  const height =
+    props.maxHeight && props.maxHeight <= sheetHeight.value ? props.maxHeight : sheetHeight.value
   return (pixel / height) * 100
 }
 
 /**
  * Define public methods
  */
-defineExpose({ open, close })
+defineExpose({ open, close: closeBottomSheet });
 
 // Add watcher on model value
 watch(() => open.value, (value) => {
-  if (value) {
-    console.log('open value changed', open.value)
+  if (value === true) {
     openBottomSheet()
   } else {
-    console.log('open value changed', open.value)
     closeBottomSheet()
   }
 })
