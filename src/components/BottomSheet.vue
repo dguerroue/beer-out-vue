@@ -227,7 +227,10 @@ nextTick(() => {
    * Create instances of Hammerjs
    */
   if(bottomSheetDraggableArea.value && bottomSheetMain.value) {
-    // TODO: replace hammerJS ?
+    /* TODO: replace hammerJS ?
+      https://github.com/taye/interact.js
+      https://github.com/biodiv/contactjs
+    */
 
     const hammerAreaInstance = new Hammer(bottomSheetDraggableArea.value, {
       inputClass: Hammer.TouchMouseInput,
