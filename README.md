@@ -2,6 +2,13 @@
 
 This template should help get you started developing with Vue 3 in Vite.
 
+
+## RESSOURCES EN VRAC
+
+https://www.hyperui.dev/
+https://pocketbase.io/
+
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).

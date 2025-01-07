@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import BottomSheet from '@/components/BottomSheet.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
 import BeerCardListHorizontal from '@/components/BeerCardListHorizontal.vue';
+import { useCore } from '@/composables/useCore';
+import type { Brassin } from '@/core/models/Brassin';
 
 
 // const myBottomSheet = ref<InstanceType<typeof MyBottomSheet>>();
@@ -20,6 +22,16 @@ function onAddBrassinClick() {
 function onAddRecipeClick() {
   openBottomSheet();
 }
+
+const core = useCore();
+
+
+const brassins = ref<Brassin[]>();
+
+onMounted(async () => {
+  brassins.value = await core.brassinUC.getBrassins()
+  console.log(brassins.value);
+})
 </script>
 
 <template>
@@ -43,7 +55,7 @@ function onAddRecipeClick() {
         </template>
       </TitleSection>
 
-      <BeerCardListHorizontal seemore-label="Voir tout les brassins" />
+      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins" seemore-label="Voir tout les brassins" />
     </section>
 
     <section class="mt-4">
@@ -54,7 +66,7 @@ function onAddRecipeClick() {
         </template>
       </TitleSection>
 
-      <BeerCardListHorizontal seemore-label="Voir toutes les recettes" />
+      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins" seemore-label="Voir toutes les recettes" />
     </section>
 
     <BottomSheet v-model:open="isBottomSheetOpen">

@@ -22,6 +22,8 @@ export default [
   {
     rules: {
       'tailwindcss/no-custom-classname': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn'
     },
   },
   
