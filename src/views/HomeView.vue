@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import BottomSheet from '@/components/BottomSheet.vue';
 import TitleSection from '@/components/TitleSection.vue';
-import ButtonIcon from '@/components/ButtonIcon.vue';
 import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
-import ButtonIconBike from '@/components/ButtonIconBike.vue';
 import BeerCardListHorizontal from '@/components/BeerCardListHorizontal.vue';
 
 
@@ -18,6 +15,9 @@ function openBottomSheet() {
 }
 
 function onAddBrassinClick() {
+  openBottomSheet();
+}
+function onAddRecipeClick() {
   openBottomSheet();
 }
 </script>
@@ -35,18 +35,27 @@ function onAddBrassinClick() {
       </ButtonPrimary>
     </div> -->
 
-    <div>
+    <section>
       <TitleSection>
         Mes brassins
         <template #actions>
-          <ButtonIconAdd @click="onAddBrassinClick()"/>
+          <ButtonIconAdd @click="onAddBrassinClick()" class="ml-2"/>
         </template>
       </TitleSection>
 
-      <BeerCardListHorizontal />
+      <BeerCardListHorizontal seemore-label="Voir tout les brassins" />
+    </section>
 
-      // TESTER un truc simple en scroll horizontal sans scrollbar
-    </div>
+    <section class="mt-4">
+      <TitleSection>
+        Mes recettes
+        <template #actions>
+          <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2"/>
+        </template>
+      </TitleSection>
+
+      <BeerCardListHorizontal seemore-label="Voir toutes les recettes" />
+    </section>
 
     <BottomSheet v-model:open="isBottomSheetOpen">
       <div class="px-8 pb-14">

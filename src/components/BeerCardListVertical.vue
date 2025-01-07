@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col gap-10">
 
-    <div class="vanilla-slider scrollbar-hide flex w-full flex-row gap-3 overflow-x-auto *:flex-none">
+    <div class="grid grid-cols-2 gap-3">
       <div v-for="slide in 4" :key="slide" class="w-[var(--child-width)]">
         <BeerCard />
       </div>
-      <div class="flex w-[var(--child-width)] items-center justify-center px-2 text-center font-bold text-cyan-700">
-        {{ seemoreLabel }}
+      <div class="col-span-2 my-6 px-2 text-center font-bold text-cyan-700">
+        Voir tout les brassins
       </div>
     </div>
 
@@ -15,12 +15,6 @@
 
 <script lang="ts" setup>
 import BeerCard from './BeerCard.vue';
-
-withDefaults(defineProps<{
-  seemoreLabel?: string,
-}>(), {
-  seemoreLabel: 'Voir plus'
-});
 </script>
 
 <style lang="scss" scoped>
