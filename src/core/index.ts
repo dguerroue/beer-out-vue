@@ -1,4 +1,5 @@
 import { ApiService } from "./services/api";
+import AuthUsescases from "./usecases/authUC";
 import BrassinsUsecases from "./usecases/brassinsUC";
 import UsersUsecases from "./usecases/usersUC";
 
@@ -9,8 +10,9 @@ export type CoreEnv = {
 export class Core {
   #env: CoreEnv;
   #api: ApiService;
-  
-  usersUC: UsersUsecases;
+
+  authUC: AuthUsescases;
+  // usersUC: UsersUsecases;
   brassinUC: BrassinsUsecases;
 
   constructor(env: CoreEnv) {
@@ -23,7 +25,8 @@ export class Core {
 
     this.#api = new ApiService(this.#env.baseUrl);
 
-    this.usersUC = new UsersUsecases(this.#api);
+    this.authUC = new AuthUsescases(this.#api);
+    // this.usersUC = new UsersUsecases(this.#api);
     this.brassinUC = new BrassinsUsecases(this.#api);
 
     console.warn("Core is ready !");

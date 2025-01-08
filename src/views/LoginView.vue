@@ -6,11 +6,11 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="#" method="POST">
+      <form class="space-y-6" @submit.prevent="onSubmitLogin">
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-900">Adresse Email</label>
           <div class="mt-2">
-            <input type="email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            <input type="email" v-model="formData.email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
           </div>
         </div>
 
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="mt-2">
-            <input type="password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            <input type="password" v-model="formData.password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
           </div>
         </div>
 
@@ -31,6 +31,12 @@
         </div>
 
       </form>
+
+      <div v-if="error">
+        <div class="my-4 font-bold text-red-600">
+          error: {{ error }}
+        </div>
+      </div>
 
       <template v-if="false">
         <!-- TODO: Add google or github login -->
@@ -49,8 +55,27 @@
 <script lang="ts" setup>
 import ButtonBase from '@/components/ButtonBase.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
+import { useCore } from '@/composables/useCore';
+import { ref } from 'vue';
 
+const core = useCore();
 
+const formData = ref({
+  email: '',
+  password: '',
+});
+const error = ref('');
+
+async function onSubmitLogin(event: SubmitEvent) {
+  try {
+    const authResponse = await core.authUC.authWithEmailAndPassword(formData.value.email, formData.value.password);
+
+    console.log(authResponse)
+  } catch(e: any) {
+    console.error(e.message);
+    error.value = e.message;
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
