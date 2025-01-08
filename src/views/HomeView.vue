@@ -37,14 +37,14 @@ onMounted(async () => {
 <template>
   <main>
     <!-- <div class="flex flex-col gap-4">
-      <ButtonPrimary @click="openBottomSheet()">
+      <ButtonBase @click="openBottomSheet()">
         <span v-if="isBottomSheetOpen">
           Door is Open
         </span>
         <span v-else>
           Open the door
         </span>
-      </ButtonPrimary>
+      </ButtonBase>
     </div> -->
 
     <section>

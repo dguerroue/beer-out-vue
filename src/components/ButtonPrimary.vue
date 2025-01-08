@@ -1,10 +1,12 @@
 <template>
-  <button class="rounded-md border bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:relative">
+  <ButtonBase class="border-primary-400 bg-primary-400 hover:border-primary-500 hover:bg-primary-500 active:border-primary-600 active:bg-primary-600">
     <slot ></slot>
-  </button>
+  </ButtonBase>
 </template>
 
 <script lang="ts" setup>
+import ButtonBase from './ButtonBase.vue';
+
 
 </script>
 
