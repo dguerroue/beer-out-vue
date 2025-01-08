@@ -6,7 +6,7 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="onSubmitLogin">
+      <form class="space-y-5" @submit.prevent="onSubmitLogin">
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-900">Adresse Email</label>
           <div class="mt-2">
@@ -17,13 +17,13 @@
         <div>
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm/6 font-medium text-gray-900">Mot de passe</label>
-            <div class="text-sm">
-              <a href="#" class="font-semibold text-primary-600 hover:text-primary-500">Forgot password?</a>
-            </div>
           </div>
           <div class="mt-2">
             <input type="password" v-model="formData.password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
           </div>
+          <!-- <div class="mt-1 text-right">
+            <a href="#" class=" text-sm text-primary-600 hover:text-primary-500">Mot de passe oublié ?</a>
+          </div> -->
         </div>
 
         <div>
@@ -67,12 +67,12 @@ const formData = ref({
 const error = ref('');
 
 async function onSubmitLogin(event: SubmitEvent) {
+  error.value = '';
+
   try {
     const authResponse = await core.authUC.authWithEmailAndPassword(formData.value.email, formData.value.password);
-
-    console.log(authResponse)
   } catch(e: any) {
-    console.error(e.message);
+    console.error(e);
     error.value = e.message;
   }
 }
