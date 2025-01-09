@@ -15,6 +15,10 @@ export class ApiService {
     this.pb = new PocketBase(baseUrl);
   }
 
+  get pbInstance() {
+    return this.pb;
+  }
+
   // Méthode pour mettre à jour ou ajouter des headers dynamiques (e.g., Authorization, lang...)
   setHeader(key: string, value: string): void {
     this.defaultHeaders[key] = value;
@@ -38,14 +42,6 @@ export class ApiService {
     } catch (error: any) {
       throw new Error(error.message);
     }
-  }
-
-  async authWithEmailAndPassword(email: string, password: string) {
-    return await this.pb.collection('users').authWithPassword(email, password);
-  }
-
-  async logout() {
-    return this.pb.authStore.clear();
   }
 
   async get<T>(endpoint: string, params?: Record<string, any>): Promise<T> {

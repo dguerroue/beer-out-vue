@@ -56,6 +56,7 @@
 import ButtonBase from '@/components/ButtonBase.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import { useCore } from '@/composables/useCore';
+import router from '@/router';
 import { ref } from 'vue';
 
 const core = useCore();
@@ -71,6 +72,8 @@ async function onSubmitLogin(event: SubmitEvent) {
 
   try {
     const authResponse = await core.authUC.authWithEmailAndPassword(formData.value.email, formData.value.password);
+    router.push(router.currentRoute.value.query.redirect as string || '/');
+
   } catch(e: any) {
     console.error(e);
     error.value = e.message;

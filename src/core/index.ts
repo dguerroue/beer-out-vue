@@ -1,7 +1,8 @@
 import { ApiService } from "./services/api";
+import { AuthService } from "./services/auth";
 import AuthUsescases from "./usecases/authUC";
 import BrassinsUsecases from "./usecases/brassinsUC";
-import UsersUsecases from "./usecases/usersUC";
+// import UsersUsecases from "./usecases/usersUC";
 
 export type CoreEnv = {
   baseUrl: string
@@ -10,6 +11,7 @@ export type CoreEnv = {
 export class Core {
   #env: CoreEnv;
   #api: ApiService;
+  #authService: AuthService;
 
   authUC: AuthUsescases;
   // usersUC: UsersUsecases;
@@ -24,8 +26,9 @@ export class Core {
     }
 
     this.#api = new ApiService(this.#env.baseUrl);
+    this.#authService = new AuthService(this.#env.baseUrl, this.#api);
 
-    this.authUC = new AuthUsescases(this.#api);
+    this.authUC = new AuthUsescases(this.#authService);
     // this.usersUC = new UsersUsecases(this.#api);
     this.brassinUC = new BrassinsUsecases(this.#api);
 

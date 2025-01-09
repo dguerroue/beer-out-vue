@@ -23,6 +23,14 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    /**
+     * add initial state to class, allow to override it
+     * src: https://dev.to/saifobeidat/override-tailwind-classes-of-a-reusable-vue-component-without-using-props-660
+     */
+    function ({ addVariant }) {
+      addVariant("initial", "html :where(&)");
+    }
+  ],
 }
 
