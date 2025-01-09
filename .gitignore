@@ -33,3 +33,4 @@ coverage
 
 # PockerBase
 /pocketbase/pb_data
+/pocketbase/pb_data/*
