@@ -1,5 +1,5 @@
 <template>
-  <component :is="layout">
+  <component :is="layout" :data-layout="layout">
     <slot></slot>
   </component>
 </template>

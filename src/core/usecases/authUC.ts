@@ -3,7 +3,7 @@ import type { AuthService } from "../services/auth";
 import type { Ref } from "vue";
 
 export default class AuthUsescases {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   authWithEmailAndPassword(email: string, password: string): Promise<RecordAuthResponse<RecordModel>> {
     return this.authService.authWithEmailAndPassword(email, password);
@@ -11,5 +11,9 @@ export default class AuthUsescases {
 
   isAuth(): boolean {
     return this.authService.isAuth();
+  }
+
+  logout() {
+    return this.authService.logout();
   }
 }

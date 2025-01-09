@@ -31,7 +31,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main>
+  <main class="space-y-10">
     <!-- <div class="flex flex-col gap-4">
       <ButtonBase @click="openBottomSheet()">
         <span v-if="isBottomSheetOpen">
@@ -61,7 +61,7 @@ onMounted(async () => {
       </div>
     </section>
 
-    <section class="mt-4">
+    <section>
       <TitleSection>
         Mes recettes
         <template #actions>

@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <slot></slot>
+  <div class="flex h-screen flex-col">
+    <div class="grow overflow-y-scroll p-4">
+      <slot></slot>
+    </div>
     <NavigationBottom />
   </div>
 </template>

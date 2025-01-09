@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-10">
 
-    <div class="vanilla-slider scrollbar-hide flex w-full flex-row gap-3 overflow-x-auto *:flex-none">
+    <div class="vanilla-slider scrollbar-hide flex w-full flex-row gap-3 overflow-x-auto p-2 *:flex-none">
       <div v-for="brassin in fiveFirstBrassins" :key="brassin.id" class="w-[var(--child-width)]">
         <BeerCard :brassin="brassin" />
       </div>
