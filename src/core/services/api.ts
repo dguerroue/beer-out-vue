@@ -1,4 +1,4 @@
-import PocketBase from 'pocketbase';
+import PocketBase, { type RecordListOptions } from 'pocketbase';
 
 // const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -8,7 +8,7 @@ export class ApiService {
   private pb: PocketBase;
 
   constructor(baseUrl: string) {
-    this.baseUrl = baseUrl;
+    this.baseUrl = baseUrl + 'api/';
     this.defaultHeaders = {
       "Content-Type": "application/json",
     };
@@ -26,9 +26,17 @@ export class ApiService {
 
   // Méthode principale pour gérer les requêtes
   private async request<T>(url: string, options: RequestInit): Promise<T> {
+    // If is auth, add token
+    if (this.pb.authStore.isValid) {
+      this.setHeader('Authorization', this.pb.authStore.token);
+    }
+
     const config: RequestInit = {
       ...options,
-      headers: { ...this.defaultHeaders, ...options.headers },
+      headers: {
+        ...this.defaultHeaders,
+        ...options.headers,
+      },
     };
 
     try {
@@ -45,15 +53,20 @@ export class ApiService {
   }
 
   async get<T>(endpoint: string, params?: Record<string, any>): Promise<T> {
-    // const url = new URL(this.baseUrl + endpoint);
-    // if (params) {
-    //   Object.entries(params).forEach(([key, value]) => {
-    //     url.searchParams.append(key, String(value));
-    //   });
+    const url = new URL(this.baseUrl + endpoint);
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        url.searchParams.append(key, String(value));
+      });
+    }
+
+    return this.request<T>(url.toString(), { method: "GET" });
+
+    // if (this.pb.authStore.isValid) {
+    //   this.setHeader('Authorization', this.pb.authStore.token);
     // }
 
-    // return this.request<T>(url.toString(), { method: "GET" });
-    return await this.pb.collection(endpoint).getList() as T;
+    // return await this.pb.collection(endpoint).getList(params?.page, params?.perPage, params?.options) as T;
   }
 
   async post<T>(endpoint: string, body: unknown): Promise<T> {

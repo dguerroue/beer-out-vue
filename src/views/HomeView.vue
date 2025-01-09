@@ -7,10 +7,8 @@ import BeerCardListHorizontal from '@/components/BeerCardListHorizontal.vue';
 import { useCore } from '@/composables/useCore';
 import type { Brassin } from '@/core/models/Brassin';
 
-
 // const myBottomSheet = ref<InstanceType<typeof MyBottomSheet>>();
 const isBottomSheetOpen = ref(false);
-
 
 function openBottomSheet() {
   isBottomSheetOpen.value = !isBottomSheetOpen.value;
@@ -25,12 +23,10 @@ function onAddRecipeClick() {
 
 const core = useCore();
 
-
 const brassins = ref<Brassin[]>();
 
 onMounted(async () => {
   brassins.value = await core.brassinUC.getBrassins()
-  console.log(brassins.value);
 })
 </script>
 
@@ -50,30 +46,40 @@ onMounted(async () => {
     <section>
       <TitleSection>
         Mes brassins
-        <template #actions>
-          <ButtonIconAdd @click="onAddBrassinClick()" class="ml-2"/>
+        <template v-if="brassins && brassins.length" #actions>
+          <ButtonIconAdd @click="onAddBrassinClick()" class="ml-2" />
         </template>
       </TitleSection>
 
-      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins" seemore-label="Voir tout les brassins" />
+      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins"
+        seemore-label="Voir tout les brassins" />
+      <div v-else class="flex w-full flex-row gap-3 overflow-x-auto *:flex-none">
+        <div class="flex min-h-[180px] w-2/5 flex-col items-center justify-center gap-2 bg-gray-100 p-3 text-center">
+          <ButtonIconAdd @click="onAddBrassinClick()" class="ml-2" size="40" />
+          <span>Ajouter un brassin</span>
+        </div>
+      </div>
     </section>
 
     <section class="mt-4">
       <TitleSection>
         Mes recettes
         <template #actions>
-          <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2"/>
+          <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2" />
         </template>
       </TitleSection>
 
-      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins" seemore-label="Voir toutes les recettes" />
+      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins"
+        seemore-label="Voir toutes les recettes" />
     </section>
 
     <BottomSheet v-model:open="isBottomSheetOpen">
       <div class="px-8 pb-14">
         <h1>Ajouter un brassin</h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam iste labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+          iste
+          labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
         </p>
       </div>
     </BottomSheet>

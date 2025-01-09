@@ -19,19 +19,17 @@ export class Brassin {
     public imageUrl: string,
     public notes: string,
     public type: string,
-    public created: Date|null,
-    public updated: Date|null,
-  ) {}
+    public created: Date | null,
+    public updated: Date | null,
+  ) { }
 }
 
 export class BrassinFactory {
 
   static buildImageUrl(json: Record<string, any>): string {
-    console.log(json)
-
     return `${json.collectionId}/${json.id}/${json.image}`;
   }
-  
+
   static createBrassin(json: Record<string, any>): Brassin {
     return new Brassin(
       json.id,

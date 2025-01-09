@@ -2,10 +2,11 @@
   <div class="flex flex-col gap-10">
 
     <div class="vanilla-slider scrollbar-hide flex w-full flex-row gap-3 overflow-x-auto *:flex-none">
-      <div v-for="brassin in brassins" :key="brassin.id" class="w-[var(--child-width)]">
+      <div v-for="brassin in fiveFirstBrassins" :key="brassin.id" class="w-[var(--child-width)]">
         <BeerCard :brassin="brassin" />
       </div>
-      <div class="flex w-[var(--child-width)] items-center justify-center px-2 text-center font-bold text-cyan-700">
+      <div v-if="brassins.length > 5"
+        class="flex w-[var(--child-width)] items-center justify-center px-2 text-center font-bold text-cyan-700">
         {{ seemoreLabel }}
       </div>
     </div>
@@ -16,13 +17,16 @@
 <script lang="ts" setup>
 import type { Brassin } from '@/core/models/Brassin';
 import BeerCard from './BeerCard.vue';
+import { computed } from 'vue';
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   seemoreLabel?: string,
   brassins: Brassin[]
 }>(), {
   seemoreLabel: 'Voir plus'
 });
+
+const fiveFirstBrassins = computed(() => props.brassins.slice(0, 5));
 </script>
 
 <style lang="scss" scoped>
@@ -41,5 +45,4 @@ withDefaults(defineProps<{
     --child-width: calc((100%/6)); // = approx 6 elem shown
   }
 }
-
 </style>
