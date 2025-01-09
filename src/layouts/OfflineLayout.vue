@@ -1,6 +1,6 @@
 <template>
   <div>
-    Navigation bottom
+    <slot></slot>
   </div>
 </template>
 

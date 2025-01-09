@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import BaseLayout from '@/layouts/BaseLayout.vue'
 </script>
 
 <template>
-  <div class="px-2 py-4">
+  <BaseLayout>
     <RouterView />
-    <RouterView name="NavigationBottom" />
-  </div>
+  </BaseLayout>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
