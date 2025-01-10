@@ -2,6 +2,7 @@ import { ApiService } from "./services/api";
 import { AuthService } from "./services/auth";
 import AuthUsescases from "./usecases/authUC";
 import BrassinsUsecases from "./usecases/brassinsUC";
+import RecipesUsecases from "./usecases/recipesUC";
 // import UsersUsecases from "./usecases/usersUC";
 
 export type CoreEnv = {
@@ -16,12 +17,13 @@ export class Core {
   authUC: AuthUsescases;
   // usersUC: UsersUsecases;
   brassinUC: BrassinsUsecases;
+  recipesUC: RecipesUsecases;
 
   constructor(env: CoreEnv) {
     console.warn("Core initializing...");
     this.#env = env;
 
-    if(this.#env.baseUrl === undefined) {
+    if (this.#env.baseUrl === undefined) {
       throw new Error("baseUrl is required");
     }
 
@@ -31,6 +33,7 @@ export class Core {
     this.authUC = new AuthUsescases(this.#authService);
     // this.usersUC = new UsersUsecases(this.#api);
     this.brassinUC = new BrassinsUsecases(this.#api);
+    this.recipesUC = new RecipesUsecases(this.#api);
 
     console.warn("Core is ready !");
   }

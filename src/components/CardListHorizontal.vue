@@ -2,12 +2,13 @@
   <div class="flex flex-col gap-10">
 
     <div class="vanilla-slider scrollbar-hide flex w-full flex-row items-stretch gap-3 overflow-x-auto p-2 *:flex-none">
-      <div v-for="brassin in fiveFirstBrassins" :key="brassin.id"
+      <div v-for="item in fiveFirstItems" :key="item.id"
         class="w-[var(--child-width)] cursor-pointer transition-transform active:scale-95"
-        @click="onBrassinClick && onBrassinClick(brassin)">
-        <BeerCard :brassin="brassin" class="h-full" />
+        @click="onItemClick && onItemClick(items)">
+        <BeerCard :item="item" class="h-full" />
       </div>
-      <div v-if="brassins.length > 5"
+
+      <div v-if="items.length > 5"
         class="flex w-[var(--child-width)] items-center justify-center px-2 text-center font-bold text-cyan-700">
         {{ seemoreLabel }}
       </div>
@@ -23,13 +24,15 @@ import { computed } from 'vue';
 
 const props = withDefaults(defineProps<{
   seemoreLabel?: string,
-  brassins: Brassin[],
-  onBrassinClick?: (brassin: Brassin) => void
+  items: any[],
+  onItemClick?: (items: any) => void
 }>(), {
   seemoreLabel: 'Voir plus'
 });
 
-const fiveFirstBrassins = computed(() => props.brassins.slice(0, 5));
+console.log(props.items)
+
+const fiveFirstItems = computed(() => props.items.slice(0, 5));
 </script>
 
 <style lang="scss" scoped>
