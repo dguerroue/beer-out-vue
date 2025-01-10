@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-screen flex-col">
-    <div class="grow overflow-y-scroll p-4">
+    <div class="grow overflow-y-scroll p-4 pt-10">
       <slot></slot>
     </div>
     <NavigationBottom />

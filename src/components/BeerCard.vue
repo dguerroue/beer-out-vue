@@ -1,6 +1,6 @@
 <template>
   <div class="beer-card-wrapper flex w-full flex-col overflow-hidden rounded-md bg-white">
-    <img v-if="brassin.imageUrl" :src="imageBaseUrl + brassin.imageUrl" class="py-4" />
+    <img v-if="brassin.imageUrl" :src="brassin.imageUrl" class="h-[180px] w-auto object-cover py-4" />
 
     <div class="w-full bg-white px-2 py-3 text-left">
       <h3 class="font-medium">{{ brassin.name }}</h3>
@@ -14,8 +14,6 @@ import type { Brassin } from '@/core/models/Brassin';
 defineProps<{
   brassin: Brassin
 }>();
-
-const imageBaseUrl = import.meta.env.VITE_IMAGE_BASE_URL;
 </script>
 
 <style lang="scss" scoped>

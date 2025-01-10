@@ -6,9 +6,14 @@ import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
 import BeerCardListHorizontal from '@/components/BeerCardListHorizontal.vue';
 import { useCore } from '@/composables/useCore';
 import type { Brassin } from '@/core/models/Brassin';
+import { useRouter } from 'vue-router';
 
+const core = useCore();
+const router = useRouter();
 // const myBottomSheet = ref<InstanceType<typeof MyBottomSheet>>();
 const isBottomSheetOpen = ref(false);
+
+const brassins = ref<Brassin[]>();
 
 function openBottomSheet() {
   isBottomSheetOpen.value = !isBottomSheetOpen.value;
@@ -17,13 +22,14 @@ function openBottomSheet() {
 function onAddBrassinClick() {
   openBottomSheet();
 }
-function onAddRecipeClick() {
-  openBottomSheet();
+
+function onBrassinClick(brassin: Brassin) {
+  console.log('brassin cliqué', brassin);
+
+  router.push({
+    path: `/brassin/${brassin.id}`
+  })
 }
-
-const core = useCore();
-
-const brassins = ref<Brassin[]>();
 
 onMounted(async () => {
   brassins.value = await core.brassinUC.getBrassins()
@@ -51,7 +57,7 @@ onMounted(async () => {
         </template>
       </TitleSection>
 
-      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins"
+      <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins" :on-brassin-click="onBrassinClick"
         seemore-label="Voir tout les brassins" />
       <div v-else class="flex w-full flex-row gap-3 overflow-x-auto *:flex-none">
         <div class="flex min-h-[180px] w-2/5 flex-col items-center justify-center gap-2 bg-gray-100 p-3 text-center">
@@ -64,9 +70,6 @@ onMounted(async () => {
     <section>
       <TitleSection>
         Mes recettes
-        <template #actions>
-          <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2" />
-        </template>
       </TitleSection>
 
       <BeerCardListHorizontal v-if="brassins && brassins.length" :brassins="brassins"
@@ -76,11 +79,43 @@ onMounted(async () => {
     <BottomSheet v-model:open="isBottomSheetOpen">
       <div class="px-8 pb-14">
         <h1>Ajouter un brassin</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-          iste
-          labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-        </p>
+        <div class="space-y-6">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
+            iste
+            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
+          </p>
+        </div>
       </div>
     </BottomSheet>
   </main>

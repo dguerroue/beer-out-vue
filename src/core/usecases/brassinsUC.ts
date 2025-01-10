@@ -13,4 +13,14 @@ export default class BrassinsUsecases {
 
     return BrassinFactory.createBrassins(resp.items);
   }
+
+  async getBrassin(id: string, params?: any): Promise<Brassin> {
+    type BrassinResp = any; /// TODO: Define BrassinResp type
+
+    const resp = await this.api.get<BrassinResp>(`collections/brassins/records/${id}`, {
+      ...params
+    });
+
+    return BrassinFactory.createBrassin(resp);
+  }
 }

@@ -18,16 +18,16 @@ export class Brassin {
     public name: string,
     public imageUrl: string,
     public notes: string,
-    public type: string,
-    public created: Date | null,
-    public updated: Date | null,
+    public type: string
   ) { }
 }
 
 export class BrassinFactory {
 
   static buildImageUrl(json: Record<string, any>): string {
-    return `${json.collectionId}/${json.id}/${json.image}`;
+    const imageBaseUrl = import.meta.env.VITE_IMAGE_BASE_URL;
+
+    return imageBaseUrl + `${json.collectionId}/${json.id}/${json.image}`;
   }
 
   static createBrassin(json: Record<string, any>): Brassin {
@@ -36,9 +36,7 @@ export class BrassinFactory {
       json.name,
       json.image ? BrassinFactory.buildImageUrl(json) : "",
       json.notes,
-      json.type,
-      json.created ? new Date(json.created) : null,
-      json.updated ? new Date(json.updated) : null
+      json.type
     );
   }
 

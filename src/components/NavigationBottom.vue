@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-bottom-wrapper flex items-center justify-evenly gap-6 bg-white px-2 py-4">
+  <div class="navigation-bottom-wrapper flex items-center justify-evenly gap-6 bg-white px-2 py-3">
     <NavigationBottomButton>
       <IconAddSquare size="30" />
       <span class="text-center text-[9px]">Nouveaux brassin</span>

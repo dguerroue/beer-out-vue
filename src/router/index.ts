@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import NavigationBottom from '@/components/NavigationBottom.vue'
 import LoginView from '@/views/LoginView.vue'
 import { useAuth } from '@/composables/useAuth';
+import BrassinView from '@/views/BrassinView.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -33,10 +33,13 @@ const router = createRouter({
       path: '/',
       name: 'home',
       meta: { requiresAuth: true },
-      components: {
-        default: HomeView,
-        NavigationBottom: NavigationBottom
-      },
+      component: HomeView,
+    },
+    {
+      path: '/brassin/:id',
+      name: 'brassin',
+      meta: { requiresAuth: true },
+      component: BrassinView
     },
     {
       path: '/about',

@@ -10,6 +10,7 @@
 </template>
 
 <script lang="ts" setup>
+// icons: https://iconoir.com
 withDefaults(defineProps<{
   size?: string;
 }>(), {
