@@ -1,6 +1,5 @@
-<script setup lang="ts">
+<script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-import BottomSheet from '@/components/BottomSheet.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
 import { useCore } from '@/composables/useCore';
@@ -8,9 +7,12 @@ import type { Brassin } from '@/core/models/Brassin';
 import { useRouter } from 'vue-router';
 import type { Recipe } from '@/core/models/Recipes';
 import CardListHorizontal from '@/components/CardListHorizontal.vue';
+import { useBottomSheet } from '@/composables/useBottomSheet';
 
 const core = useCore();
 const router = useRouter();
+const bs = useBottomSheet();
+
 // const myBottomSheet = ref<InstanceType<typeof MyBottomSheet>>();
 const isBottomSheetOpen = ref(false);
 
@@ -25,7 +27,17 @@ function onAddBrassinClick() {
   openBottomSheet();
 }
 function onAddRecipeClick() {
-  openBottomSheet();
+  bs.openBottomSheet(
+    <div class="px-8 pb-14" >
+      <h1 class="text-xl font-bold">Ajouter une recette</h1>
+      <div class="space-y-6" >
+        <form>
+          <label>Nom de la recette</label>
+          < input type="text" placeholder="Nom de la recette" />
+        </form>
+      </div>
+    </div>
+  );
 }
 
 function onBrassinClick(brassin: Brassin) {
@@ -76,6 +88,9 @@ onMounted(async () => {
     <section>
       <TitleSection>
         Mes recettes
+        <template v-if="recipes && recipes.length" #actions>
+          <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2" />
+        </template>
       </TitleSection>
 
       <CardListHorizontal v-if="recipes && recipes.length" :items="recipes" :on-item-click="onBrassinClick"
@@ -87,48 +102,5 @@ onMounted(async () => {
         </div>
       </div>
     </section>
-
-    <BottomSheet v-model:open="isBottomSheetOpen">
-      <div class="px-8 pb-14">
-        <h1>Ajouter un brassin</h1>
-        <div class="space-y-6">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nihil ipsa tempora quidem eius iusto quam
-            iste
-            labore, debitis veniam velit adipisci temporibus odit officiis dolore. Repellat veniam fugiat neque.
-          </p>
-        </div>
-      </div>
-    </BottomSheet>
   </main>
 </template>

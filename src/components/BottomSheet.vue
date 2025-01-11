@@ -2,11 +2,7 @@
   <Teleport to="body">
     <div class="bottom-sheet" ref="bottomSheet" :aria-hidden="!showSheet" role="dialog">
       <transition>
-        <div
-          @click="clickOnOverlayHandler"
-          class="bottom-sheet__overlay"
-          v-show="overlay && showSheet"
-        ></div>
+        <div @click="clickOnOverlayHandler" class="bottom-sheet__overlay" v-show="overlay && showSheet"></div>
       </transition>
       <div ref="bottomSheetContent" :class="sheetContentClasses">
         <header ref="bottomSheetHeader" class="bottom-sheet__header">
@@ -15,7 +11,7 @@
           </div>
         </header>
         <main ref="bottomSheetMain" class="bottom-sheet__main">
-          <slot ></slot>
+          <slot></slot>
         </main>
       </div>
     </div>
@@ -226,7 +222,7 @@ nextTick(() => {
   /**
    * Create instances of Hammerjs
    */
-  if(bottomSheetDraggableArea.value && bottomSheetMain.value) {
+  if (bottomSheetDraggableArea.value && bottomSheetMain.value) {
     /* TODO: replace hammerJS ?
       https://github.com/taye/interact.js
       https://github.com/biodiv/contactjs
@@ -236,19 +232,19 @@ nextTick(() => {
       inputClass: Hammer.TouchMouseInput,
       recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
     })
-  
+
     const hammerMainInstance = new Hammer(bottomSheetMain.value, {
       inputClass: Hammer.TouchMouseInput,
       recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
     })
-  
+
     /**
      * Set events and handlers to hammerjs instances
      */
     hammerAreaInstance.on('panstart panup pandown panend', (e: HammerInput) => {
       dragHandler(e, 'area')
     })
-  
+
     hammerMainInstance.on('panstart panup pandown panend', (e: HammerInput) => {
       dragHandler(e, 'main')
     })
@@ -403,13 +399,16 @@ watch(() => open.value, (value) => {
       height: 8px;
       width: 8px;
     }
+
     &::-webkit-scrollbar-corner {
       display: none;
     }
+
     &:hover::-webkit-scrollbar-thumb {
       background-color: rgba(0, 0, 0, 0.2);
       border-radius: 8px;
     }
+
     &::-webkit-scrollbar-thumb {
       background-color: rgba(0, 0, 0, 0);
     }
