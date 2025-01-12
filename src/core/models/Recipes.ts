@@ -14,13 +14,18 @@ export type RecipeResp = Record<string, any>;
 
 // TODO : create a type PutRecipeType
 
+export type BeerType = {
+  id: string,
+  name: string
+}
+
 export class Recipe {
   constructor(
     public id: string | undefined,
     public name: string,
     public imageUrl: string | undefined,
     public notes: string,
-    public type: string[]
+    public type: BeerType[]
   ) { }
 }
 
@@ -44,5 +49,12 @@ export class RecipeFactory {
 
   static createRecipes(jsonArray: Record<string, any>[]): Recipe[] {
     return jsonArray.map(json => RecipeFactory.createRecipe(json));
+  }
+
+  static createBeerTypes(jsonArray: Record<string, any>[]): BeerType[] {
+    return jsonArray.map(json => ({
+      id: json.id,
+      name: json.name
+    }));
   }
 }

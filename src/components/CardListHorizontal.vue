@@ -31,8 +31,6 @@ const props = withDefaults(defineProps<{
   seemoreLabel: 'Voir plus'
 });
 
-console.log(props.items)
-
 const fiveFirstItems = computed(() => props.items.slice(0, 5));
 </script>
 

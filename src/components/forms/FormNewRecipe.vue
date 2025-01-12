@@ -16,9 +16,7 @@
         <select name="recipeType" id="recipeType" v-model="formData.type" tabindex="2"
           class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
           <option value="">Type</option>
-          <option value="IPA">IPA</option>
-          <option value="Triple">Triple</option>
-          <option value="Autre">Autre</option>
+          <option :value="beerType.id" v-for="beerType in beerTypes" :key="beerType.id">{{ beerType.name }}</option>
         </select>
       </div>
 
@@ -42,23 +40,27 @@ import { nextTick } from 'process';
 import { onMounted, ref } from 'vue';
 import ButtonBase from '../ButtonBase.vue';
 import { useCore } from '@/composables/useCore';
+import type { BeerType } from '@/core/models/Recipes';
+
+const emit = defineEmits(['submit']);
 
 const core = useCore();
 
 const autoFocusInput = ref<HTMLInputElement | null>(null);
-
-const emit = defineEmits(['submit']);
-
+const beerTypes = ref<BeerType[]>([]);
 const formData = ref({
   name: '',
   notes: '',
   type: ''
 });
 
-onMounted(() => {
+onMounted(async () => {
   setTimeout(() => {
     autoFocusInput.value?.focus();
   }, 100);
+
+  beerTypes.value = await core.recipesUC.getBeerTypes();
+  console.log('beerTypes', beerTypes.value);
 });
 
 async function onSubmitNewRecipe() {

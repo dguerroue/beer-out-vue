@@ -1,4 +1,5 @@
-import { type GetRecipesParams, type Recipe, type RecipesResp, RecipeFactory } from "../models/Recipes";
+import { type ListBaseResp } from "../models/Api";
+import { type BeerType, type GetRecipesParams, type Recipe, type RecipesResp, RecipeFactory } from "../models/Recipes";
 import type { ApiService } from "../services/api";
 
 export default class RecipesUsecases {
@@ -22,6 +23,12 @@ export default class RecipesUsecases {
     });
 
     return RecipeFactory.createRecipe(resp);
+  }
+
+  async getBeerTypes(): Promise<BeerType[]> {
+    const resp = await this.api.get<ListBaseResp>("collections/beertype/records");
+
+    return RecipeFactory.createBeerTypes(resp.items);
   }
 
   async createRecipe(recipe: Recipe): Promise<Recipe> {
