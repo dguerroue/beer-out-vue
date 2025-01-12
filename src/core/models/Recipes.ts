@@ -12,13 +12,15 @@ export type RecipesResp = {
 
 export type RecipeResp = Record<string, any>;
 
+// TODO : create a type PutRecipeType
+
 export class Recipe {
   constructor(
-    public id: string,
+    public id: string | undefined,
     public name: string,
-    public imageUrl: string,
+    public imageUrl: string | undefined,
     public notes: string,
-    public type: string
+    public type: string[]
   ) { }
 }
 

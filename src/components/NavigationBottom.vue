@@ -5,6 +5,11 @@
       <span class="text-center text-[9px]">Nouveaux brassin</span>
     </NavigationBottomButton>
 
+    <NavigationBottomButton @click="onAddRecipeClick">
+      <IconAddSquare size="30" />
+      <span class="text-center text-[9px]">Nouvelle recette</span>
+    </NavigationBottomButton>
+
     <NavigationBottomButton @click="onLogoutClick">
       <IconLogout size="30" />
       <span class="text-[9px]">Deconnexion</span>
@@ -12,15 +17,24 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import { useCore } from '@/composables/useCore';
 import IconAddSquare from './icons/IconAddSquare.vue';
 import IconLogout from './icons/IconLogout.vue';
 import NavigationBottomButton from './NavigationBottomButton.vue';
 import { useRouter } from 'vue-router';
+import { useBottomSheet } from '@/composables/useBottomSheet';
+import FormNewRecipe from './forms/FormNewRecipe.vue';
 
 const core = useCore();
 const router = useRouter();
+const bs = useBottomSheet();
+
+function onAddRecipeClick() {
+  bs.openBottomSheet(
+    <FormNewRecipe />
+  );
+}
 
 async function onLogoutClick() {
   await core.authUC.logout();

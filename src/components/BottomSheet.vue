@@ -159,7 +159,7 @@ const maxWidthString = computed(() => {
  */
 const initHeight = async () => {
   await nextTick()
-  sheetHeight.value = bottomSheetMain.value!.clientHeight
+  sheetHeight.value = bottomSheetContent.value!.clientHeight
 }
 
 /**

@@ -23,4 +23,10 @@ export default class RecipesUsecases {
 
     return RecipeFactory.createRecipe(resp);
   }
+
+  async createRecipe(recipe: Recipe): Promise<Recipe> {
+    const resp = await this.api.post<Recipe>("collections/recipes/records", recipe);
+
+    return RecipeFactory.createRecipe(resp);
+  }
 }

@@ -11,7 +11,7 @@ export type CoreEnv = {
 
 export class Core {
   #env: CoreEnv;
-  #api: ApiService;
+  api: ApiService;
   #authService: AuthService;
 
   authUC: AuthUsescases;
@@ -27,13 +27,13 @@ export class Core {
       throw new Error("baseUrl is required");
     }
 
-    this.#api = new ApiService(this.#env.baseUrl);
-    this.#authService = new AuthService(this.#env.baseUrl, this.#api);
+    this.api = new ApiService(this.#env.baseUrl);
+    this.#authService = new AuthService(this.#env.baseUrl, this.api);
 
     this.authUC = new AuthUsescases(this.#authService);
     // this.usersUC = new UsersUsecases(this.#api);
-    this.brassinUC = new BrassinsUsecases(this.#api);
-    this.recipesUC = new RecipesUsecases(this.#api);
+    this.brassinUC = new BrassinsUsecases(this.api);
+    this.recipesUC = new RecipesUsecases(this.api);
 
     console.warn("Core is ready !");
   }

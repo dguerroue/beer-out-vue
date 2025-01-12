@@ -1,3 +1,5 @@
+import tailwindFormsPlugin from '@tailwindcss/forms'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -30,7 +32,8 @@ export default {
      */
     function ({ addVariant }) {
       addVariant("initial", "html :where(&)");
-    }
+    },
+    tailwindFormsPlugin,
   ],
 }
 

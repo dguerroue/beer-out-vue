@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router';
 import type { Recipe } from '@/core/models/Recipes';
 import CardListHorizontal from '@/components/CardListHorizontal.vue';
 import { useBottomSheet } from '@/composables/useBottomSheet';
+import FormNewRecipe from '@/components/forms/FormNewRecipe.vue';
 
 const core = useCore();
 const router = useRouter();
@@ -27,16 +28,8 @@ function onAddBrassinClick() {
   openBottomSheet();
 }
 function onAddRecipeClick() {
-  bs.openBottomSheet(
-    <div class="px-8 pb-14" >
-      <h1 class="text-xl font-bold">Ajouter une recette</h1>
-      <div class="space-y-6" >
-        <form>
-          <label>Nom de la recette</label>
-          < input type="text" placeholder="Nom de la recette" />
-        </form>
-      </div>
-    </div>
+  const idRecipeBs = bs.openBottomSheet(
+    <FormNewRecipe onSubmit={() => { bs.closeBottomSheetById(idRecipeBs) }} />
   );
 }
 

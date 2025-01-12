@@ -19,12 +19,13 @@
 
 <script lang="ts" setup>
 import type { Brassin } from '@/core/models/Brassin';
+import type { Recipe } from '@/core/models/Recipes';
 import BeerCard from './BeerCard.vue';
 import { computed } from 'vue';
 
 const props = withDefaults(defineProps<{
   seemoreLabel?: string,
-  items: any[],
+  items: Brassin[] | Recipe[],
   onItemClick?: (items: any) => void
 }>(), {
   seemoreLabel: 'Voir plus'
