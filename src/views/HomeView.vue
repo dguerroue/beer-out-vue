@@ -3,12 +3,12 @@ import { onMounted, ref } from 'vue';
 import TitleSection from '@/components/TitleSection.vue';
 import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
 import { useCore } from '@/composables/useCore';
-import type { Brassin } from '@/core/models/Brassin';
 import { useRouter } from 'vue-router';
-import type { Recipe } from '@/core/models/Recipes';
 import CardListHorizontal from '@/components/CardListHorizontal.vue';
 import { useBottomSheet } from '@/composables/useBottomSheet';
 import FormNewRecipe from '@/components/forms/FormNewRecipe.vue';
+import type { Brassin } from '@/core/entities/Brassin';
+import type { Recipe } from '@/core/entities/Recipe';
 
 const core = useCore();
 const router = useRouter();

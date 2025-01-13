@@ -1,19 +1,22 @@
-import type { RecordAuthResponse, RecordModel } from "pocketbase";
-import type { AuthService } from "../services/auth";
-import type { Ref } from "vue";
+import PocketBase from 'pocketbase';
+import type { ApiService } from "../services/api";
 
 export default class AuthUsescases {
-  constructor(private authService: AuthService) { }
+  private pb: PocketBase;
 
-  authWithEmailAndPassword(email: string, password: string): Promise<RecordAuthResponse<RecordModel>> {
-    return this.authService.authWithEmailAndPassword(email, password);
+  constructor(private api: ApiService) {
+    this.pb = this.api.pbInstance
   }
 
-  isAuth(): boolean {
-    return this.authService.isAuth();
+  async authWithEmailAndPassword(email: string, password: string) {
+    return await this.pb.collection('users').authWithPassword(email, password);
   }
 
-  logout() {
-    return this.authService.logout();
+  isAuth() {
+    return this.pb.authStore.isValid;
+  }
+
+  async logout() {
+    return this.pb.authStore.clear();
   }
 }

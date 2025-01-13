@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { Brassin } from '@/core/models/Brassin';
-import type { Recipe } from '@/core/models/Recipes';
+import type { Brassin } from '@/core/entities/Brassin';
+import type { Recipe } from '@/core/entities/Recipe';
 import BeerCard from './BeerCard.vue';
 import { computed } from 'vue';
 

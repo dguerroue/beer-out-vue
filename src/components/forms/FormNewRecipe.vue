@@ -24,7 +24,7 @@
         <label for="recipeNotes" class="block text-xs font-medium text-gray-700">Notes</label>
 
         <textarea id="recipeNotes" placeholder="C'était bon" rows="4" tabindex="3" v-model="formData.notes"
-          class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" />
+          class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"></textarea>
       </div>
 
       <ButtonBase type="submit" class="w-full">
@@ -36,11 +36,10 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick } from 'process';
 import { onMounted, ref } from 'vue';
 import ButtonBase from '../ButtonBase.vue';
 import { useCore } from '@/composables/useCore';
-import type { BeerType } from '@/core/models/Recipes';
+import type { BeerType } from '@/core/entities/BeerType';
 
 const emit = defineEmits(['submit']);
 
@@ -59,7 +58,7 @@ onMounted(async () => {
     autoFocusInput.value?.focus();
   }, 100);
 
-  beerTypes.value = await core.recipesUC.getBeerTypes();
+  beerTypes.value = await core.beerTypesUC.getBeerTypes();
   console.log('beerTypes', beerTypes.value);
 });
 
@@ -71,7 +70,6 @@ async function onSubmitNewRecipe() {
     imageUrl: undefined,
     name: formData.value.name,
     notes: formData.value.notes,
-    // TODO get les types de biere
     type: [
       formData.value.type
     ],

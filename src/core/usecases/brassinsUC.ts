@@ -1,4 +1,5 @@
-import { BrassinFactory, type Brassin, type BrassinsResp, type GetBrassinsParams } from "../models/Brassin";
+import { Brassin } from "../entities/Brassin";
+import { type BrassinsResp, type GetBrassinsParams } from "../models/Brassin";
 import type { ApiService } from "../services/api";
 
 export default class BrassinsUsecases {
@@ -11,7 +12,7 @@ export default class BrassinsUsecases {
       ...params
     });
 
-    return BrassinFactory.createBrassins(resp.items);
+    return resp.items.map(json => Brassin.fromJsonToBrassin(json));
   }
 
   async getBrassin(id: string, params?: any): Promise<Brassin> {
@@ -21,6 +22,6 @@ export default class BrassinsUsecases {
       ...params
     });
 
-    return BrassinFactory.createBrassin(resp);
+    return Brassin.fromJsonToBrassin(resp);
   }
 }

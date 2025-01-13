@@ -1,9 +1,9 @@
-export type GetBaseParams = Partial<{
+export type GetParamsBase = Partial<{
   page?: number,
   perPage?: number
 }>;
 
-export type ListBaseResp = {
+export type ListRespBase = {
   page: number,
   perPage: number,
   totalItems: number,

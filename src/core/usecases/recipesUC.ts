@@ -1,5 +1,5 @@
-import { type ListBaseResp } from "../models/Api";
-import { type BeerType, type GetRecipesParams, type Recipe, type RecipesResp, RecipeFactory } from "../models/Recipes";
+import { Recipe } from "../entities/Recipe";
+import { type GetRecipesParams, type PostRecipeParams, type RecipeResp, type RecipesResp } from "../models/Recipe";
 import type { ApiService } from "../services/api";
 
 export default class RecipesUsecases {
@@ -12,28 +12,20 @@ export default class RecipesUsecases {
       ...params
     });
 
-    return RecipeFactory.createRecipes(resp.items);
+    return resp.items.map(json => Recipe.fromJsonToRecipe(json));
   }
 
-  async getRecipe(id: string, params?: any): Promise<Recipe> {
-    type RecipeResp = any; /// TODO: Define RecipeResp type
-
+  async getRecipeById(id: string, params?: any): Promise<Recipe> {
     const resp = await this.api.get<RecipeResp>(`collections/recipes/records/${id}`, {
       ...params
     });
 
-    return RecipeFactory.createRecipe(resp);
+    return Recipe.fromJsonToRecipe(resp);
   }
 
-  async getBeerTypes(): Promise<BeerType[]> {
-    const resp = await this.api.get<ListBaseResp>("collections/beertype/records");
+  async createRecipe(params: PostRecipeParams): Promise<Recipe> {
+    const resp = await this.api.post<Recipe>("collections/recipes/records", params);
 
-    return RecipeFactory.createBeerTypes(resp.items);
-  }
-
-  async createRecipe(recipe: Recipe): Promise<Recipe> {
-    const resp = await this.api.post<Recipe>("collections/recipes/records", recipe);
-
-    return RecipeFactory.createRecipe(resp);
+    return Recipe.fromJsonToRecipe(resp);
   }
 }
