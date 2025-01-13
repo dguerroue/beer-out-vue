@@ -23,8 +23,9 @@ export default class RecipesUsecases {
     return Recipe.fromJsonToRecipe(resp);
   }
 
-  async createRecipe(params: PostRecipeParams): Promise<Recipe> {
-    const resp = await this.api.post<Recipe>("collections/recipes/records", params);
+  async createRecipe(params: PostRecipeParams | FormData): Promise<Recipe> {
+    // this.api.pbInstance.collection('recipes').create(params);
+    const resp = this.api.post<Recipe>("collections/recipes/records", params);
 
     return Recipe.fromJsonToRecipe(resp);
   }

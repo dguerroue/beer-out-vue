@@ -7,6 +7,7 @@ export type PostRecipeParams = {
   type?: string[],
   name: string,
   notes?: string,
+  image?: File,
 }
 
 export type RecipesResp = {

@@ -11,6 +11,15 @@
       </div>
 
       <div>
+        <label for="recipeImage" class="block text-xs font-medium text-gray-700">Image</label>
+
+        <input type="file" id="recipeImage" tabindex="1" ref="autoFocusInput" @change="onInputImageChange"
+          class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" />
+
+        <img v-if="imageFile" :src="imageFile" alt="image uploaded" />
+      </div>
+
+      <div>
         <label for="recipeType" class="block text-sm font-medium text-gray-900">Type de biere</label>
 
         <select name="recipeType" id="recipeType" v-model="formData.type" tabindex="2"
@@ -40,6 +49,7 @@ import { onMounted, ref } from 'vue';
 import ButtonBase from '../ButtonBase.vue';
 import { useCore } from '@/composables/useCore';
 import type { BeerType } from '@/core/entities/BeerType';
+import type { PostRecipeParams } from '@/core/models/Recipe';
 
 const emit = defineEmits(['submit']);
 
@@ -47,10 +57,11 @@ const core = useCore();
 
 const autoFocusInput = ref<HTMLInputElement | null>(null);
 const beerTypes = ref<BeerType[]>([]);
+const imageFile = ref();
 const formData = ref({
   name: '',
   notes: '',
-  type: ''
+  type: '',
 });
 
 onMounted(async () => {
@@ -62,12 +73,17 @@ onMounted(async () => {
   console.log('beerTypes', beerTypes.value);
 });
 
+function onInputImageChange(event: Event) {
+  if (event.target === null) return;
+  const file = (event.target as HTMLInputElement).files![0];
+  imageFile.value = file;
+  console.log('input image change', file);
+}
+
 async function onSubmitNewRecipe() {
   console.log('submit new recipe');
 
-  const data = {
-    id: undefined,
-    imageUrl: undefined,
+  const data: PostRecipeParams = {
     name: formData.value.name,
     notes: formData.value.notes,
     type: [
@@ -77,9 +93,18 @@ async function onSubmitNewRecipe() {
     user: "97tc6vhg25o5n2y"
   }
 
-  core.recipesUC.createRecipe({
-    ...data
-  });
+  if (imageFile.value) {
+    const fd = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      fd.append(key, value as string);
+    });
+    fd.append("image", new File([imageFile.value], `${formData.value.name}`));
+
+    core.recipesUC.createRecipe(fd);
+  } else {
+    core.recipesUC.createRecipe(data);
+  }
 
   emit('submit');
 }

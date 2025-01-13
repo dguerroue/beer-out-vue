@@ -15,7 +15,7 @@ export class Recipe {
       json.name,
       json.image ? `${json.collectionId}/${json.id}/${json.image}` : "",
       json.notes,
-      json.type ? json.type.map((type: Record<string, any>) => BeerType.fromJsonToBeerType(type)) : []
+      json.expand?.type ? json.expand.type.map((type: Record<string, any>) => BeerType.fromJsonToBeerType(type)) : []
     );
   }
 }

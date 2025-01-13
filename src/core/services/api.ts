@@ -25,13 +25,13 @@ export class ApiService {
   }
 
   // Méthode principale pour gérer les requêtes
-  private async request<T>(url: string, options: RequestInit): Promise<T> {
+  private async request<T>(url: string, options: Record<string, any>): Promise<T> {
     // If is auth, add token
     if (this.pb.authStore.isValid) {
       this.setHeader('Authorization', this.pb.authStore.token);
     }
 
-    const config: RequestInit = {
+    const config = {
       ...options,
       headers: {
         ...this.defaultHeaders,
@@ -60,7 +60,12 @@ export class ApiService {
       });
     }
 
-    return this.request<T>(url.toString(), { method: "GET" });
+    return this.request<T>(url.toString(), {
+      method: "GET",
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // }
+    });
 
     // if (this.pb.authStore.isValid) {
     //   this.setHeader('Authorization', this.pb.authStore.token);
@@ -70,9 +75,15 @@ export class ApiService {
   }
 
   async post<T>(endpoint: string, body: unknown): Promise<T> {
+    // check if body is FormData
+    if (body instanceof FormData) {
+      console.warn('FormData detected');
+      this.setHeader('Content-Type', 'multipart/form-data');
+    }
+
     return this.request<T>(this.baseUrl + endpoint, {
       method: "POST",
-      body: JSON.stringify(body),
+      body: body,
     });
   }
 

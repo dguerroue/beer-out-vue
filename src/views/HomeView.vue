@@ -38,7 +38,15 @@ function onBrassinClick(brassin: Brassin) {
 
   router.push({
     path: `/brassin/${brassin.id}`
-  })
+  });
+}
+
+function onRecipeClick(recipe: Recipe) {
+  console.log('recette cliquée', recipe);
+
+  router.push({
+    path: `/recipe/${recipe.id}`
+  });
 }
 
 onMounted(async () => {
@@ -86,8 +94,9 @@ onMounted(async () => {
         </template>
       </TitleSection>
 
-      <CardListHorizontal v-if="recipes && recipes.length" :items="recipes" :on-item-click="onBrassinClick"
+      <CardListHorizontal v-if="recipes && recipes.length" :items="recipes" :on-item-click="onRecipeClick"
         seemore-label="Voir toutes les recettes" />
+
       <div v-else class="flex w-full flex-row gap-3 overflow-x-auto *:flex-none">
         <div class="flex min-h-[180px] w-2/5 flex-col items-center justify-center gap-2 bg-gray-100 p-3 text-center">
           <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2" size="40" />

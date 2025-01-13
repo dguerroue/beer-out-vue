@@ -4,7 +4,7 @@
     <div class="vanilla-slider scrollbar-hide flex w-full flex-row items-stretch gap-3 overflow-x-auto p-2 *:flex-none">
       <div v-for="item in fiveFirstItems" :key="item.id"
         class="w-[var(--child-width)] cursor-pointer transition-transform active:scale-95"
-        @click="onItemClick && onItemClick(items)">
+        @click="onItemClick && onItemClick(item)">
         <BeerCard :item="item" class="h-full" />
       </div>
 
