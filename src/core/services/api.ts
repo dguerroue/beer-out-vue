@@ -1,4 +1,5 @@
 import PocketBase, { type RecordListOptions } from 'pocketbase';
+import { ErrorWrapper } from './errors';
 
 // const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -47,10 +48,12 @@ export class ApiService {
       const response = await fetch(url, config);
 
       if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
+        throw new ErrorWrapper(
+          response,
+          response.status,
+          response.statusText
+        );
       }
-
-      console.log(response);
 
       if (response.status === 204) {
         return {} as T;
@@ -58,7 +61,7 @@ export class ApiService {
 
       return (await response.json()) as T;
     } catch (error: any) {
-      throw new Error(error.message);
+      throw error;
     }
   }
 

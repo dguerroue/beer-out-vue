@@ -1,6 +1,7 @@
 <template>
-  <ButtonBase class="border-primary-400 bg-primary-400 hover:border-primary-500 hover:bg-primary-500 active:border-primary-600 active:bg-primary-600">
-    <slot ></slot>
+  <ButtonBase
+    class="border-primary-400 bg-primary-400 text-primary-950 hover:border-primary-500 hover:bg-primary-500 active:border-primary-600 active:bg-primary-600">
+    <slot></slot>
   </ButtonBase>
 </template>
 
