@@ -8,7 +8,12 @@ export default class BrassinsUsecases {
   constructor(private api: ApiService) { }
 
   async getBrassins(params?: GetBrassinsParams): Promise<Brassin[]> {
+    const defaultParams: GetBrassinsParams = {
+      sort: "-created"
+    }
+
     const resp = await this.api.get<BrassinsResp>("collections/brassins/records", {
+      ...defaultParams,
       ...params
     });
 

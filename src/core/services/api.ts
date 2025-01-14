@@ -24,6 +24,10 @@ export class ApiService {
     this.defaultHeaders[key] = value;
   }
 
+  removeHeader(key: string): void {
+    delete this.defaultHeaders[key];
+  }
+
   // Méthode principale pour gérer les requêtes
   private async request<T>(url: string, options: Record<string, any>): Promise<T> {
     // If is auth, add token
@@ -46,6 +50,12 @@ export class ApiService {
         throw new Error(`Request failed with status ${response.status}`);
       }
 
+      console.log(response);
+
+      if (response.status === 204) {
+        return {} as T;
+      }
+
       return (await response.json()) as T;
     } catch (error: any) {
       throw new Error(error.message);
@@ -61,15 +71,8 @@ export class ApiService {
     }
 
     return this.request<T>(url.toString(), {
-      method: "GET",
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // }
+      method: "GET"
     });
-
-    // if (this.pb.authStore.isValid) {
-    //   this.setHeader('Authorization', this.pb.authStore.token);
-    // }
 
     // return await this.pb.collection(endpoint).getList(params?.page, params?.perPage, params?.options) as T;
   }
@@ -78,13 +81,20 @@ export class ApiService {
     // check if body is FormData
     if (body instanceof FormData) {
       console.warn('FormData detected');
-      this.setHeader('Content-Type', 'multipart/form-data');
-    }
+      this.removeHeader('Content-Type');
 
-    return this.request<T>(this.baseUrl + endpoint, {
-      method: "POST",
-      body: body,
-    });
+      return this.request<T>(this.baseUrl + endpoint, {
+        method: "POST",
+        body: body,
+      });
+    } else {
+      this.setHeader('Content-Type', 'application/json');
+
+      return this.request<T>(this.baseUrl + endpoint, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+    }
   }
 
   async put<T>(endpoint: string, body: unknown): Promise<T> {

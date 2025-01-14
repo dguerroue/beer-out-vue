@@ -1,6 +1,7 @@
 export type GetParamsBase = Partial<{
   page?: number,
-  perPage?: number
+  perPage?: number,
+  sort?: string,
 }>;
 
 export type ListRespBase = {

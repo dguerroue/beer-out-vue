@@ -1,3 +1,5 @@
+// exemple of Pinia Store
+
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 

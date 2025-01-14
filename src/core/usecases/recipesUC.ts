@@ -8,7 +8,12 @@ export default class RecipesUsecases {
   constructor(private api: ApiService) { }
 
   async getRecipes(params?: GetRecipesParams): Promise<Recipe[]> {
+    const defaultParams: GetRecipesParams = {
+      sort: "-created"
+    }
+
     const resp = await this.api.get<RecipesResp>("collections/recipes/records", {
+      ...defaultParams,
       ...params
     });
 
@@ -28,5 +33,9 @@ export default class RecipesUsecases {
     const resp = this.api.post<Recipe>("collections/recipes/records", params);
 
     return Recipe.fromJsonToRecipe(resp);
+  }
+
+  async deleteRecipe(id: string): Promise<void> {
+    await this.api.delete(`collections/recipes/records/${id}`);
   }
 }

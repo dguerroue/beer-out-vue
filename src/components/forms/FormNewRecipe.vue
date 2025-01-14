@@ -106,6 +106,9 @@ async function onSubmitNewRecipe() {
     core.recipesUC.createRecipe(data);
   }
 
+  // purge imageFile
+  imageFile.value = null;
+
   emit('submit');
 }
 </script>

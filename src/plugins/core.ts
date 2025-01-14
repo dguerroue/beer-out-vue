@@ -9,6 +9,7 @@ export default {
     })
 
     // inject a globally available $coreInstance class
+    // used by the useCore composable
     app.provide('coreInstance', coreInstance);
   }
 }
