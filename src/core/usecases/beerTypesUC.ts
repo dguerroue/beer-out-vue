@@ -12,4 +12,12 @@ export default class BeerTypesUsecases {
 
     return resp.items.map(json => BeerType.fromJsonToBeerType(json));
   }
+
+  async createBeerType(beerName: string): Promise<BeerType> {
+    const resp = await this.api.post<BeerType>("collections/beertype/records", {
+      name: beerName,
+    });
+
+    return BeerType.fromJsonToBeerType(resp);
+  }
 }

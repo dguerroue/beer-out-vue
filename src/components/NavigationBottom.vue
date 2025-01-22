@@ -31,8 +31,8 @@ const router = useRouter();
 const bs = useBottomSheet();
 
 function onAddRecipeClick() {
-  bs.openBottomSheet(
-    <FormNewRecipe />
+  const id = bs.openBottomSheet(
+    <FormNewRecipe onSubmit={() => { bs.closeBottomSheetById(id) }} />
   );
 }
 

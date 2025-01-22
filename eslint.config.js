@@ -40,6 +40,7 @@ export default [
           "max": 3
         }
       }],
+      'vue/block-lang': 'off',
       // tailwindcss
       'tailwindcss/no-custom-classname': 'off',
     }
