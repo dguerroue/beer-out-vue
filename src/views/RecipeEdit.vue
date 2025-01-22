@@ -1,21 +1,7 @@
 <template>
   <div class="flex h-full flex-col">
     <TitleSection>
-      Ma Recette
-
-      <template #actions-right>
-        <ButtonIcon size="20" @click="onEditClick">
-          <template #icon>
-            <IconEdit />
-          </template>
-
-          <template #icon-hover>
-            <div class="size-full rounded-full bg-black p-1 text-white">
-              <IconEdit />
-            </div>
-          </template>
-        </ButtonIcon>
-      </template>
+      Ma Recette - Edit
     </TitleSection>
 
     <ButtonGoBack label="Retour" />
@@ -75,8 +61,6 @@
 import ButtonBase from '@/components/ButtonBase.vue';
 import ButtonConfirm from '@/components/ButtonConfirm.vue';
 import ButtonGoBack from '@/components/ButtonGoBack.vue';
-import ButtonIcon from '@/components/ButtonIcon.vue';
-import IconEdit from '@/components/icons/IconEdit.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import { useCore } from '@/composables/useCore';
 import type { Recipe } from '@/core/entities/Recipe';
@@ -113,10 +97,6 @@ onMounted(async () => {
     recipeIsLoading.value = false;
   }
 })
-
-function onEditClick() {
-  router.push(`/recipe/${recipeId}/edit`)
-}
 
 async function onConfirmDeleteRecipe() {
   try {
