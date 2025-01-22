@@ -2,6 +2,20 @@
   <div class="flex h-full flex-col">
     <TitleSection>
       Ma Recette
+
+      <template #actions>
+        <ButtonIcon size="20">
+          <template #icon>
+            <IconEdit />
+          </template>
+
+          <template #icon-hover>
+            <div class="size-full rounded-full bg-black p-1 text-white">
+              <IconEdit />
+            </div>
+          </template>
+        </ButtonIcon>
+      </template>
     </TitleSection>
 
     <ButtonGoBack label="Retour" />
@@ -61,6 +75,8 @@
 import ButtonBase from '@/components/ButtonBase.vue';
 import ButtonConfirm from '@/components/ButtonConfirm.vue';
 import ButtonGoBack from '@/components/ButtonGoBack.vue';
+import ButtonIcon from '@/components/ButtonIcon.vue';
+import IconEdit from '@/components/icons/IconEdit.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import { useCore } from '@/composables/useCore';
 import type { Recipe } from '@/core/entities/Recipe';

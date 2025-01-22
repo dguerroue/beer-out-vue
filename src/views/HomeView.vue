@@ -71,7 +71,7 @@ onMounted(async () => {
       <TitleSection>
         Mes recettes
         <template v-if="!isRecipesLoading && recipes && recipes.length" #actions>
-          <ButtonIconAdd class="ml-2" @click="onAddRecipeClick()" />
+          <ButtonIconAdd @click="onAddRecipeClick()" />
         </template>
       </TitleSection>
 
