@@ -1,5 +1,5 @@
-import type { Recipe } from "../entities/Recipe";
-import type { RecipePostParams, RecipesGetParams } from "../models/Recipe";
+import type { Recipe } from "../../entities/Recipe";
+import type { RecipePostParams, RecipesGetParams } from "../../models/Recipe";
 
 export interface IRecipesRepository {
   getRecipes(params?: RecipesGetParams): Promise<Recipe[]>;

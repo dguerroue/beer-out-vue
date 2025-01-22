@@ -1,6 +1,6 @@
 import { Recipe } from "../entities/Recipe";
 import { type RecipesGetParams, type RecipePostParams } from "../models/Recipe";
-import type { IRecipesRepository } from "../repositories/IRecipesRepository";
+import type { IRecipesRepository } from "../repositories/interfaces/IRecipesRepository";
 
 export default class RecipesUsecases {
 

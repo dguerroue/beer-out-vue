@@ -2,7 +2,7 @@ import { Recipe } from "../entities/Recipe";
 import { RecipeMapper } from "../mappers/RecipeMapper";
 import type { RecipePostParams, RecipeResp, RecipesGetParams, RecipesResp } from "../models/Recipe";
 import type { ApiService } from "../services/api";
-import type { IRecipesRepository } from "./IRecipesRepository";
+import type { IRecipesRepository } from "./interfaces/IRecipesRepository";
 
 export class ApiRecipesRepository implements IRecipesRepository {
   constructor(private api: ApiService) {}

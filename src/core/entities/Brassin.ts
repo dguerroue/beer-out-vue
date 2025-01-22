@@ -8,14 +8,4 @@ export class Brassin {
     public notes: string,
     public type: BeerType[]
   ) { }
-
-  static fromJsonToBrassin(json: Record<string, any>): Brassin {
-    return new Brassin(
-      json.id,
-      json.name,
-      json.image ? `${json.collectionId}/${json.id}/${json.image}` : "",
-      json.notes,
-      json.type ? json.type.map((type: Record<string, any>) => BeerType.fromJsonToBeerType(type)) : []
-    );
-  }
 }
