@@ -109,13 +109,18 @@
       </div>
 
 
-      <ButtonPrimary v-if="!isCreateRecipeLoading" type="submit" class="w-full">
-        Ajouter
-      </ButtonPrimary>
-      <ButtonBase v-else>
-        Ajouter
-        <LoaderSpinner class="size-4" />
-      </ButtonBase>
+      <div>
+        <ButtonPrimary v-if="!isCreateRecipeLoading" type="submit" class="w-full">
+          Ajouter
+        </ButtonPrimary>
+        <ButtonBase v-else>
+          Ajouter
+          <LoaderSpinner class="size-4" />
+        </ButtonBase>
+        <ButtonBase class="mt-3 w-full" @click="onCancelClick">
+          Annuler
+        </ButtonBase>
+      </div>
     </form>
   </div>
 </template>
@@ -132,7 +137,7 @@ import LoaderSpinner from '../LoaderSpinner.vue';
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'cancel']);
 
 const core = useCore();
 const recipesStore = core.recipesStore();
@@ -218,6 +223,10 @@ async function onSubmitNewRecipe() {
   imageFile.value = null;
 
   emit('submit');
+}
+
+function onCancelClick() {
+  emit('cancel');
 }
 </script>
 

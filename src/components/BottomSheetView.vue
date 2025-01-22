@@ -1,7 +1,10 @@
 <template>
   <div>
-    <BottomSheet v-model:open="bs.isOpen" v-for="bs in bottomSheetStack" :key="bs.id"
-      @closed="removeBottomSheet(bs.id)">
+    <BottomSheet
+      v-for="bs in bottomSheetStack"
+      :key="bs.id"
+      v-model:open="bs.isOpen"
+    >
       <component :is="bs.component" />
     </BottomSheet>
   </div>

@@ -17,23 +17,21 @@
   </div>
 </template>
 
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import { useCore } from '@/composables/useCore';
 import IconAddSquare from './icons/IconAddSquare.vue';
 import IconLogout from './icons/IconLogout.vue';
 import NavigationBottomButton from './NavigationBottomButton.vue';
 import { useRouter } from 'vue-router';
-import { useBottomSheet } from '@/composables/useBottomSheet';
-import FormNewRecipe from './forms/FormNewRecipe.vue';
+import { useRecipesActions } from '@/composables/useRecipesActions';
 
 const core = useCore();
 const router = useRouter();
-const bs = useBottomSheet();
+
+const recipesActions = useRecipesActions();
 
 function onAddRecipeClick() {
-  const id = bs.openBottomSheet(
-    <FormNewRecipe onSubmit={() => { bs.closeBottomSheetById(id) }} />
-  );
+  recipesActions.openBsFormNewRecipe();
 }
 
 async function onLogoutClick() {
