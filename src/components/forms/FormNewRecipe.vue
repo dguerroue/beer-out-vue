@@ -124,9 +124,8 @@
 import { onMounted, ref } from 'vue';
 import { useCore } from '@/composables/useCore';
 import type { BeerType } from '@/core/entities/BeerType';
-import type { PostRecipeParams } from '@/core/models/Recipe';
+import type { RecipePostParams } from '@/core/models/Recipe';
 import ButtonPrimary from '../ButtonPrimary.vue';
-import { useRecipesStore } from '@/stores/recipesStore';
 import ButtonBase from '../ButtonBase.vue';
 import LoaderSpinner from '../LoaderSpinner.vue';
 
@@ -136,6 +135,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css';
 const emit = defineEmits(['submit']);
 
 const core = useCore();
+const recipesStore = core.recipesStore();
 
 const autoFocusInput = ref<HTMLInputElement | null>(null);
 const beerTypes = ref<BeerType[]>([]);
@@ -184,7 +184,7 @@ async function onSubmitNewRecipe() {
 
   isCreateRecipeLoading.value = true;
 
-  const data: PostRecipeParams = {
+  const data: RecipePostParams = {
     name: formData.value.name,
     notes: formData.value.notes,
     type: formData.value.type.map(beerType => beerType.id),
@@ -204,14 +204,13 @@ async function onSubmitNewRecipe() {
     });
     fd.append("image", new File([imageFile.value], `${formData.value.name}`));
 
-    await core.recipesUC.createRecipe(fd);
+    await recipesStore.createRecipe(fd);
   } else {
-
-    await core.recipesUC.createRecipe(data);
+    await recipesStore.createRecipe(data);
   }
 
   // refresh recipes
-  await useRecipesStore().refreshRecipes();
+  await recipesStore.refreshRecipes();
 
   isCreateRecipeLoading.value = false;
 

@@ -1,25 +1,27 @@
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-import TitleSection from '@/components/TitleSection.vue';
-import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
-import { useCore } from '@/composables/useCore';
-import { useRouter } from 'vue-router';
-import CardListHorizontal from '@/components/CardListHorizontal.vue';
-import { useBottomSheet } from '@/composables/useBottomSheet';
-import FormNewRecipe from '@/components/forms/FormNewRecipe.vue';
-import type { Brassin } from '@/core/entities/Brassin';
-import type { Recipe } from '@/core/entities/Recipe';
-import { useRecipesStore } from '@/stores/recipesStore';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+
+// import type { Brassin } from '@/core/entities/Brassin';
+import type { Recipe } from '@/core/entities/Recipe';
+
+import { useBottomSheet } from '@/composables/useBottomSheet';
+import { useCore } from '@/composables/useCore';
+
+import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
+import CardListHorizontal from '@/components/CardListHorizontal.vue';
+import FormNewRecipe from '@/components/forms/FormNewRecipe.vue';
 import LoaderSkeleton from '@/components/LoaderSkeleton.vue';
+import TitleSection from '@/components/TitleSection.vue';
 
 const core = useCore();
 const router = useRouter();
 const bs = useBottomSheet();
 
-const recipesStore = useRecipesStore();
+const recipesStore = core.recipesStore();
 
-const brassins = ref<Brassin[]>();
+// const brassins = ref<Brassin[]>();
 const { recipes, isRecipesLoading } = storeToRefs(recipesStore);
 
 // function onAddBrassinClick() {
@@ -45,14 +47,13 @@ function onRecipeClick(recipe: Recipe) {
 
 onMounted(async () => {
   // brassins.value = await core.brassinUC.getBrassins();
-  await recipesStore.fetchRecipes();
+  await recipesStore.getRecipes();
 
 })
 </script>
 
 <template>
   <main class="space-y-10">
-
     <!-- <section>
       <TitleSection>
         Mes brassins
@@ -75,7 +76,7 @@ onMounted(async () => {
       <TitleSection>
         Mes recettes
         <template v-if="!isRecipesLoading && recipes && recipes.length" #actions>
-          <ButtonIconAdd @click="onAddRecipeClick()" class="ml-2" />
+          <ButtonIconAdd class="ml-2" @click="onAddRecipeClick()" />
         </template>
       </TitleSection>
 
@@ -85,8 +86,12 @@ onMounted(async () => {
       </div>
 
       <template v-else>
-        <CardListHorizontal v-if="recipes && recipes.length" :items="recipes" :on-item-click="onRecipeClick"
-          seemore-label="Voir toutes les recettes" />
+        <CardListHorizontal
+          v-if="recipes && recipes.length"
+          :items="recipes"
+          :on-item-click="onRecipeClick"
+          seemore-label="Voir toutes les recettes"
+        />
 
         <div v-else class="flex w-full flex-row gap-3 overflow-x-auto *:flex-none" @click="onAddRecipeClick()">
           <div class="flex min-h-[180px] w-2/5 flex-col items-center justify-center gap-2 bg-gray-100 p-3 text-center">
@@ -95,7 +100,6 @@ onMounted(async () => {
           </div>
         </div>
       </template>
-
     </section>
   </main>
 </template>

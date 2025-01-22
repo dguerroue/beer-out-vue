@@ -1,5 +1,5 @@
 import { Brassin } from "../entities/Brassin";
-import { type BrassinsResp, type GetBrassinsParams } from "../models/Brassin";
+import { type BrassinsResp, type BrassinsGetParams } from "../models/Brassin";
 import type { ApiService } from "../services/api";
 
 export default class BrassinsUsecases {
@@ -7,8 +7,8 @@ export default class BrassinsUsecases {
   // Parameter Properties: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
   constructor(private api: ApiService) { }
 
-  async getBrassins(params?: GetBrassinsParams): Promise<Brassin[]> {
-    const defaultParams: GetBrassinsParams = {
+  async getBrassins(params?: BrassinsGetParams): Promise<Brassin[]> {
+    const defaultParams: BrassinsGetParams = {
       sort: "-created"
     }
 

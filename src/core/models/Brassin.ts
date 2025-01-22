@@ -1,7 +1,7 @@
-import type { GetParamsBase, ListRespBase } from "./Api";
+import type { BaseGetParams, BaseListResp } from "./Api";
 
-export type GetBrassinsParams = GetParamsBase & {};
+export type BrassinsGetParams = BaseGetParams & {};
 
-export type BrassinsResp = ListRespBase;
+export type BrassinsResp = BaseListResp;
 
 export type BrassinResp = Record<string, any>;

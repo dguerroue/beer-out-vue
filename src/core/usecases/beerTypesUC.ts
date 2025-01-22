@@ -1,4 +1,4 @@
-import { type ListRespBase } from "../models/Api";
+import { type BaseListResp } from "../models/Api";
 import { BeerType } from "../entities/BeerType";
 import type { ApiService } from "../services/api";
 
@@ -8,7 +8,7 @@ export default class BeerTypesUsecases {
   constructor(private api: ApiService) { }
 
   async getBeerTypes(): Promise<BeerType[]> {
-    const resp = await this.api.get<ListRespBase>("collections/beertype/records");
+    const resp = await this.api.get<BaseListResp>("collections/beertype/records");
 
     return resp.items.map(json => BeerType.fromJsonToBeerType(json));
   }

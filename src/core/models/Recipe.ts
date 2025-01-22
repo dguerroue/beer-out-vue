@@ -1,8 +1,8 @@
-import type { GetParamsBase } from "./Api";
+import type { BaseGetParams } from "./Api";
 
-export type GetRecipesParams = GetParamsBase & {};
+export type RecipesGetParams = BaseGetParams & {};
 
-export type PostRecipeParams = {
+export type RecipePostParams = {
   user: string,
   type?: string[],
   name: string,
@@ -20,4 +20,4 @@ export type RecipesResp = {
 
 export type RecipeResp = Record<string, any>;
 
-// TODO : create a type PutRecipeType
+// TODO : create a type "RecipePutParams"
