@@ -12,7 +12,12 @@ export function useRecipesActions() {
       bs.openBottomSheetById(bsNewRecipeId);
     } else {
       bsNewRecipeId = bs.openBottomSheet(
-        <FormNewRecipe onSubmit={() => bs.closeBottomSheetById(bsNewRecipeId)} onCancel={() => closeAndRemoveBsFormNewRecipe()} />
+        <div class="px-4 py-6 pb-12">
+          <h1 class="text-xl font-bold">
+            Ajouter une recette
+          </h1>
+          <FormNewRecipe onSubmit={() => bs.closeBottomSheetById(bsNewRecipeId)} onCancel={() => closeAndRemoveBsFormNewRecipe()} />
+        </div>
       );
     }
   }

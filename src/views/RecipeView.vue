@@ -18,7 +18,7 @@
       </template>
     </TitleSection>
 
-    <ButtonGoBack label="Retour" />
+    <ButtonGoBack label="Retour" @click="router.push('/')" />
 
     <div v-if="errorStatus === 404" class="flex grow flex-col items-center justify-center font-bold">
       <span class="text-7xl font-black">404</span>
@@ -57,23 +57,12 @@
         </div>
         <div class="mt-10" v-html="recipe?.notes" />
       </div>
-
-      <div class="mb-6 mt-8 flex justify-center">
-        <ButtonConfirm @confirm="onConfirmDeleteRecipe">
-          Supprimer la recette
-
-          <template #confirm>
-            <b class="font-semibold">Supprimer la recette ?</b>
-          </template>
-        </ButtonConfirm>
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import ButtonBase from '@/components/ButtonBase.vue';
-import ButtonConfirm from '@/components/ButtonConfirm.vue';
 import ButtonGoBack from '@/components/ButtonGoBack.vue';
 import ButtonIcon from '@/components/ButtonIcon.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
@@ -116,18 +105,6 @@ onMounted(async () => {
 
 function onEditClick() {
   router.push(`/recipe/${recipeId}/edit`)
-}
-
-async function onConfirmDeleteRecipe() {
-  try {
-    await recipeStore.deleteRecipe(recipeId);
-
-    recipeStore.refreshRecipes();
-
-    router.push('/');
-  } catch (error) {
-    console.error(error);
-  }
 }
 </script>
 

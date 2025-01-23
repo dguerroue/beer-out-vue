@@ -4,7 +4,7 @@
       <div
         v-for="item in fiveFirstItems"
         :key="item.id"
-        class="w-[var(--child-width)] cursor-pointer transition-transform active:scale-95"
+        class="w-[var(--child-width)] cursor-pointer transition-transform hover:scale-105 active:scale-95"
         @click="onItemClick && onItemClick(item)"
       >
         <BeerCard :item="item" class="h-full" />

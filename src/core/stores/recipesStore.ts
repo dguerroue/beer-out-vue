@@ -35,6 +35,10 @@ export function createRecipesStore(recipesUsecases: RecipesUsecases) {
       await getRecipes(true);
     }
 
+    async function editRecipe(id: string, params: RecipePostParams | FormData): Promise<Recipe> {
+      return await recipesUsecases.editRecipe(id, params);
+    }
+
     async function deleteRecipe(id: string): Promise<void> {
       await recipesUsecases.deleteRecipe(id);
     }
@@ -46,6 +50,7 @@ export function createRecipesStore(recipesUsecases: RecipesUsecases) {
       getRecipes,
       getRecipeById,
       refreshRecipes,
+      editRecipe,
       deleteRecipe
     }
   });

@@ -34,6 +34,12 @@ export class ApiRecipesRepository implements IRecipesRepository {
   
       return RecipeMapper.fromJsonToRecipe(resp);
     }
+
+    async editRecipe(id: string, params: RecipePostParams | FormData): Promise<Recipe> {
+      const resp = await this.api.patch<RecipeResp>(`collections/recipes/records/${id}`, params);
+
+      return RecipeMapper.fromJsonToRecipe(resp);
+    }
   
     async deleteRecipe(id: string): Promise<void> {
       await this.api.delete(`collections/recipes/records/${id}`);

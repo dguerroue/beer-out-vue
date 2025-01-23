@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-bottom-wrapper flex items-center justify-evenly gap-6 bg-white px-2 py-3">
+  <div class="navigation-bottom-wrapper mx-auto mb-2 flex w-11/12 items-center justify-evenly gap-6 rounded-2xl bg-white px-2 py-3">
     <NavigationBottomButton>
       <div class="group flex flex-col items-center">
         <IconAddSquare size="30" class="group-hover:hidden group-active:hidden" />
