@@ -1,7 +1,7 @@
 <template>
   <form
     class="space-y-6 py-3"
-    @submit.prevent="onSubmitNewRecipe"
+    @submit.prevent="onSubmitEditRecipe"
   >
     <div>
       <label
@@ -11,7 +11,6 @@
 
       <input
         id="recipeName"
-        ref="autoFocusInput"
         v-model="formData.name"
         type="text"
         placeholder="Dual Ipa"
@@ -27,11 +26,11 @@
       >Image</label>
 
       <label
-        v-if="imageFileUrl"
+        v-if="imageFileUrl || recipe.imageUrl"
         for="recipeImage"
       >
         <img
-          :src="imageFileUrl"
+          :src="imageFileUrl || baseUrlImage + recipe.imageUrl"
           alt="image uploaded"
           class="h-[130px]"
         >
@@ -46,29 +45,6 @@
         @change="onInputImageChange"
       >
     </div>
-
-    <!-- <div>
-        <label for="recipeType" class="block text-sm font-medium text-gray-900">Type de biere</label>
-
-        <select
-          id="recipeType"
-          v-model="formData.type"
-          name="recipeType"
-          tabindex="3"
-          class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
-        >
-          <option value="">
-            Type
-          </option>
-          <option
-            v-for="beerType in beerTypes"
-            :key="beerType.id"
-            :value="beerType.id"
-          >
-            {{ beerType.name }}
-          </option>
-        </select>
-      </div> -->
 
     <div>
       <label for="recipeType" class="block text-sm font-medium text-gray-900">
@@ -107,10 +83,10 @@
 
     <div>
       <ButtonPrimary v-if="!isCreateRecipeLoading" type="submit" class="w-full">
-        Ajouter
+        Modifier
       </ButtonPrimary>
-      <ButtonBase v-else class="w-full" disabled>
-        Ajouter
+      <ButtonBase v-else disabled class="w-full">
+        Modifier
         <LoaderSpinner class="size-4" />
       </ButtonBase>
       <ButtonBase class="mt-3 w-full" @click="onCancelClick">
@@ -131,14 +107,19 @@ import LoaderSpinner from '../LoaderSpinner.vue';
 
 import Multiselect from 'vue-multiselect';
 import 'vue-multiselect/dist/vue-multiselect.min.css';
+import type { Recipe } from '@/core/entities/Recipe';
 
 const emit = defineEmits(['submit', 'cancel']);
+
+const props = defineProps<{
+  recipe: Recipe;
+}>();
+
+const baseUrlImage = import.meta.env.VITE_IMAGE_BASE_URL;
 
 const core = useCore();
 const recipesStore = core.recipesStore();
 
-const autoFocusInput = ref<HTMLInputElement | null>(null);
-const beerTypes = ref<BeerType[]>([]);
 const imageFile = ref();
 const imageFileUrl = ref<string | null>(null);
 const formData = ref<{
@@ -146,17 +127,14 @@ const formData = ref<{
   notes: string;
   type: BeerType[];
 }>({
-  name: '',
-  notes: '',
-  type: [],
+  name: props.recipe.name,
+  notes: props.recipe.notes,
+  type: props.recipe.type,
 });
+const beerTypes = ref<BeerType[]>([]);
 const isCreateRecipeLoading = ref(false);
 
 onMounted(async () => {
-  setTimeout(() => {
-    autoFocusInput.value?.focus();
-  }, 100);
-
   beerTypes.value = await core.beerTypesUC.getBeerTypes();
 });
 
@@ -180,7 +158,7 @@ async function onAddBeerType(newBeerName: string) {
   formData.value.type.push(newBeerType);
 }
 
-async function onSubmitNewRecipe() {
+async function onSubmitEditRecipe() {
 
   isCreateRecipeLoading.value = true;
 
@@ -192,28 +170,36 @@ async function onSubmitNewRecipe() {
     user: "97tc6vhg25o5n2y"
   }
 
-  if (imageFile.value) {
-    const fd = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((val) => fd.append(key, val));
-      } else {
-        fd.append(key, value as string);
-      }
-    });
-    fd.append("image", new File([imageFile.value], `${formData.value.name}`));
-
-    await recipesStore.createRecipe(fd);
-  } else {
-    await recipesStore.createRecipe(data);
+  if(!props.recipe.id) {
+    console.error('Recipe id is missing');
+    return;
   }
+  try {
+    if(imageFile.value) {
+      const fd = new FormData();
+  
+      Object.entries(data).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((val) => fd.append(key, val));
+        } else {
+          fd.append(key, value as string);
+        }
+      });
+      fd.append("image", new File([imageFile.value], `${formData.value.name}`));
+  
+      await recipesStore.editRecipe(props.recipe.id, fd);
+    } else {
+      await recipesStore.editRecipe(props.recipe.id, data);
+    }
+  
+    // refresh recipes
+    await recipesStore.refreshRecipes();
 
-  // refresh recipes
-  await new Promise(resolve => setTimeout(resolve, 500));
-  await recipesStore.refreshRecipes();
-
-  isCreateRecipeLoading.value = false;
+  } catch(e) {
+    // console.error(e);
+  } finally {
+    isCreateRecipeLoading.value = false;
+  }
 
   // purge imageFile
   imageFile.value = null;

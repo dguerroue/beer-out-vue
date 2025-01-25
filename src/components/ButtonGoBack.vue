@@ -1,5 +1,5 @@
 <template>
-  <div class="group flex cursor-pointer items-center gap-1" @click="$router.go(-1)">
+  <div class="group flex cursor-pointer items-center gap-1">
     <IconLeftArrow size="25" class="transition-transform group-hover:-translate-x-1" />
     <span v-if="label" class="font-medium">{{ label }}</span>
   </div>

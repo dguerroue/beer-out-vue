@@ -4,6 +4,7 @@ import LoginView from '@/views/LoginView.vue'
 import { useAuth } from '@/composables/useAuth';
 import BrassinView from '@/views/BrassinView.vue';
 import RecipeView from '@/views/RecipeView.vue';
+import RecipeEdit from '@/views/RecipeEdit.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -47,6 +48,12 @@ const router = createRouter({
       name: 'recipe',
       meta: { requiresAuth: true },
       component: RecipeView
+    },
+    {
+      path: '/recipe/:id/edit',
+      name: 'recipe-edit',
+      meta: { requiresAuth: true },
+      component: RecipeEdit
     },
     {
       path: '/about',

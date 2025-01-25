@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
@@ -6,20 +6,17 @@ import { useRouter } from 'vue-router';
 // import type { Brassin } from '@/core/entities/Brassin';
 import type { Recipe } from '@/core/entities/Recipe';
 
-import { useBottomSheet } from '@/composables/useBottomSheet';
-import { useCore } from '@/composables/useCore';
-
 import ButtonIconAdd from '@/components/ButtonIconAdd.vue';
 import CardListHorizontal from '@/components/CardListHorizontal.vue';
-import FormNewRecipe from '@/components/forms/FormNewRecipe.vue';
 import LoaderSkeleton from '@/components/LoaderSkeleton.vue';
 import TitleSection from '@/components/TitleSection.vue';
+import { useRecipesStore } from '@/composables/useRecipesStore';
+import { useRecipesActions } from '@/composables/useRecipesActions';
 
-const core = useCore();
 const router = useRouter();
-const bs = useBottomSheet();
 
-const recipesStore = core.recipesStore();
+const recipesStore = useRecipesStore();
+const recipesActions = useRecipesActions();
 
 // const brassins = ref<Brassin[]>();
 const { recipes, isRecipesLoading } = storeToRefs(recipesStore);
@@ -28,9 +25,7 @@ const { recipes, isRecipesLoading } = storeToRefs(recipesStore);
 //   openBottomSheet();
 // }
 function onAddRecipeClick() {
-  const idRecipeBs = bs.openBottomSheet(
-    <FormNewRecipe onSubmit={() => { bs.closeBottomSheetById(idRecipeBs) }} />
-  );
+  recipesActions.openBsFormNewRecipe()
 }
 
 // function onBrassinClick(brassin: Brassin) {
@@ -76,7 +71,7 @@ onMounted(async () => {
       <TitleSection>
         Mes recettes
         <template v-if="!isRecipesLoading && recipes && recipes.length" #actions>
-          <ButtonIconAdd class="ml-2" @click="onAddRecipeClick()" />
+          <ButtonIconAdd @click="onAddRecipeClick()" />
         </template>
       </TitleSection>
 

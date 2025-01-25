@@ -19,6 +19,10 @@ export default class RecipesUsecases {
     return this.repo.createRecipe(params);
   }
 
+  async editRecipe(id: string, params: RecipePostParams | FormData): Promise<Recipe> {
+    return this.repo.editRecipe(id, params);
+  }
+
   async deleteRecipe(id: string): Promise<void> {
     this.repo.deleteRecipe(id);
   }

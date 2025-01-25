@@ -2,9 +2,23 @@
   <div class="flex h-full flex-col">
     <TitleSection>
       Ma Recette
+
+      <template #actions-right>
+        <ButtonIcon size="20" @click="onEditClick">
+          <template #icon>
+            <IconEdit />
+          </template>
+
+          <template #icon-hover>
+            <div class="size-full rounded-full bg-black p-1 text-white">
+              <IconEdit />
+            </div>
+          </template>
+        </ButtonIcon>
+      </template>
     </TitleSection>
 
-    <ButtonGoBack label="Retour" />
+    <ButtonGoBack label="Retour" @click="router.push('/')" />
 
     <div v-if="errorStatus === 404" class="flex grow flex-col items-center justify-center font-bold">
       <span class="text-7xl font-black">404</span>
@@ -43,24 +57,15 @@
         </div>
         <div class="mt-10" v-html="recipe?.notes" />
       </div>
-
-      <div class="mb-6 mt-8 flex justify-center">
-        <ButtonConfirm @confirm="onConfirmDeleteRecipe">
-          Supprimer la recette
-
-          <template #confirm>
-            <b class="font-semibold">Supprimer la recette ?</b>
-          </template>
-        </ButtonConfirm>
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import ButtonBase from '@/components/ButtonBase.vue';
-import ButtonConfirm from '@/components/ButtonConfirm.vue';
 import ButtonGoBack from '@/components/ButtonGoBack.vue';
+import ButtonIcon from '@/components/ButtonIcon.vue';
+import IconEdit from '@/components/icons/IconEdit.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import { useCore } from '@/composables/useCore';
 import type { Recipe } from '@/core/entities/Recipe';
@@ -98,16 +103,8 @@ onMounted(async () => {
   }
 })
 
-async function onConfirmDeleteRecipe() {
-  try {
-    await recipeStore.deleteRecipe(recipeId);
-
-    recipeStore.refreshRecipes();
-
-    router.push('/');
-  } catch (error) {
-    console.error(error);
-  }
+function onEditClick() {
+  router.push(`/recipe/${recipeId}/edit`)
 }
 </script>
 

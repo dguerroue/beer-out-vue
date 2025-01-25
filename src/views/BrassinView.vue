@@ -4,7 +4,7 @@
       Mon brassin
     </TitleSection>
 
-    <ButtonGoBack label="Retour" />
+    <ButtonGoBack label="Retour" @click="router.push('/')" />
 
     <div class="mt-8 flex gap-4 px-2">
       <img :src="brassin?.imageUrl" :alt="`Image du brassin ${brassin?.name}`" class="size-24">

@@ -1,19 +1,22 @@
 <template>
   <div class="flex flex-col gap-10">
-
     <div class="vanilla-slider scrollbar-hide flex w-full flex-row items-stretch gap-3 overflow-x-auto p-2 *:flex-none">
-      <div v-for="item in fiveFirstItems" :key="item.id"
-        class="w-[var(--child-width)] cursor-pointer transition-transform active:scale-95"
-        @click="onItemClick && onItemClick(item)">
+      <div
+        v-for="item in fiveFirstItems"
+        :key="item.id"
+        class="w-[var(--child-width)] cursor-pointer transition-transform hover:scale-105 active:scale-95"
+        @click="onItemClick && onItemClick(item)"
+      >
         <BeerCard :item="item" class="h-full" />
       </div>
 
-      <div v-if="items.length > 5"
-        class="flex w-[var(--child-width)] items-center justify-center px-2 text-center font-bold text-cyan-700">
+      <div
+        v-if="items.length > 5"
+        class="flex w-[var(--child-width)] items-center justify-center px-2 text-center font-bold text-cyan-700"
+      >
         {{ seemoreLabel }}
       </div>
     </div>
-
   </div>
 </template>
 
@@ -36,14 +39,18 @@ const fiveFirstItems = computed(() => props.items.slice(0, 5));
 
 <style lang="scss" scoped>
 .vanilla-slider {
-  --child-width: calc((100%/2.5) - 9px); // = approx 2.5 elem shown
+  --child-width: calc((100%/1) - 9px); // = approx 2.2 elem shown
+  
+  @media (min-width: 200px) {
+    --child-width: calc((100%/2.2) - 9px); // = approx 2.2 elem shown
+  }
 
   @media (min-width: 424px) {
-    --child-width: calc((100%/3.5) - 8px); // = approx 3.5 elem shown
+    --child-width: calc((100%/3.2) - 8px); // = approx 3.2 elem shown
   }
 
   @media (min-width: 768px) {
-    --child-width: calc((100%/4.5) - 8px); // = approx 4.5 elem shown
+    --child-width: calc((100%/4.2) - 8px); // = approx 4.2 elem shown
   }
 
   @media (min-width: 1024px) {

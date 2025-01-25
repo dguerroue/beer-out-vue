@@ -1,4 +1,4 @@
-import PocketBase, { type RecordListOptions } from 'pocketbase';
+import PocketBase from 'pocketbase';
 import { ErrorWrapper } from './errors';
 
 // const pb = new PocketBase('http://127.0.0.1:8090');
@@ -48,10 +48,13 @@ export class ApiService {
       const response = await fetch(url, config);
 
       if (!response.ok) {
+        const responseJson = await response.json();
+
         throw new ErrorWrapper(
           response,
           response.status,
-          response.statusText
+          response.statusText,
+          responseJson
         );
       }
 
@@ -98,6 +101,13 @@ export class ApiService {
         body: JSON.stringify(body),
       });
     }
+  }
+
+  async patch<T>(endpoint: string, body: unknown): Promise<T> {
+    return this.request<T>(this.baseUrl + endpoint, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
   }
 
   async put<T>(endpoint: string, body: unknown): Promise<T> {
