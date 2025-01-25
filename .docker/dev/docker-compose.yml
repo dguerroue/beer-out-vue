@@ -1,0 +1,23 @@
+services:
+  app:
+    build: 
+      context: ../..
+      dockerfile: .docker/dev/Dockerfile
+    container_name: beer-out-app-dev
+    volumes:
+      - ../..:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3020:5173"
+    environment:
+      - NODE_ENV=development
+    restart: always
+  pocketbase:
+    build:
+      context: ../../pocketbase
+      dockerfile: ../.docker/dev/Dockerfile.pb
+    container_name: beer-out-pb-dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../pocketbase/pb_data:/pb/pb_data
