@@ -1,8 +1,10 @@
 <template>
   <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-24 w-auto" src="@/assets/logo/logo-xl.png" alt="Your Company" />
-      <h2 class="mt-8 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Connexion</h2>
+      <img class="mx-auto h-24 w-auto" src="@/assets/logo/logo-xl.png" alt="Your Company">
+      <h2 class="mt-8 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+        Connexion
+      </h2>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -10,7 +12,15 @@
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-900">Adresse Email</label>
           <div class="mt-2">
-            <input type="email" v-model="formData.email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            <input
+              id="email"
+              v-model="formData.email"
+              type="email"
+              name="email"
+              autocomplete="email"
+              required
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            >
           </div>
         </div>
 
@@ -19,7 +29,15 @@
             <label for="password" class="block text-sm/6 font-medium text-gray-900">Mot de passe</label>
           </div>
           <div class="mt-2">
-            <input type="password" v-model="formData.password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            <input
+              id="password"
+              v-model="formData.password"
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            >
           </div>
           <!-- <div class="mt-1 text-right">
             <a href="#" class=" text-sm text-primary-600 hover:text-primary-500">Mot de passe oublié ?</a>
@@ -27,9 +45,10 @@
         </div>
 
         <div>
-          <ButtonPrimary type="submit" class="w-full">Se connecter</ButtonPrimary>
+          <ButtonPrimary type="submit" class="w-full">
+            Se connecter
+          </ButtonPrimary>
         </div>
-
       </form>
 
       <div v-if="error">
@@ -41,9 +60,9 @@
       <template v-if="false">
         <!-- TODO: Add google or github login -->
         <div class="my-6 flex items-center justify-between">
-          <span class="block h-px flex-1 bg-gray-200"></span>
+          <span class="block h-px flex-1 bg-gray-200" />
           <span class="mx-4 text-gray-500">ou</span>
-          <span class="block h-px flex-1 bg-gray-200"></span>
+          <span class="block h-px flex-1 bg-gray-200" />
         </div>
   
         <ButtonBase>GOOGLE</ButtonBase>
@@ -67,7 +86,7 @@ const formData = ref({
 });
 const error = ref('');
 
-async function onSubmitLogin(event: SubmitEvent) {
+async function onSubmitLogin() {
   error.value = '';
 
   try {

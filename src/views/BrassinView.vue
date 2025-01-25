@@ -47,7 +47,7 @@ const brassinIsLoading = ref(true);
 onMounted(async () => {
   try {
     brassinIsLoading.value = true;
-    brassin.value = await core.brassinUC.getBrassin(brassinId);
+    // brassin.value = await core.brassinUC.getBrassin(brassinId);
   } catch (error) {
     console.error(error);
   } finally {

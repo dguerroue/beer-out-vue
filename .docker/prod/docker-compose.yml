@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: .docker/prod/Dockerfile
+    container_name: beer-out-app
+    ports:
+      - "3020:80"
+    environment:
+      - NODE_ENV=production
+    restart: always
+  pocketbase:
+    build:
+      context: ../../pocketbase
+      dockerfile: ../.docker/prod/Dockerfile.pb
+    container_name: beer-out-pb
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../pocketbase/pb_data:/pb/pb_data
