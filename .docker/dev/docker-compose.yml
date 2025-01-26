@@ -3,7 +3,7 @@ services:
     build: 
       context: ../..
       dockerfile: .docker/dev/Dockerfile
-    container_name: beer-out-app-dev
+    container_name: beerout-app-dev
     volumes:
       - ../..:/usr/src/app
       - /usr/src/app/node_modules
@@ -16,7 +16,7 @@ services:
     build:
       context: ../../pocketbase
       dockerfile: ../.docker/dev/Dockerfile.pb
-    container_name: beer-out-pb-dev
+    container_name: beerout-pb-dev
     ports:
       - "8080:8080"
     volumes:
