@@ -71,7 +71,12 @@ onMounted(async () => {
       <TitleSection>
         Mes recettes
         <template v-if="!isRecipesLoading && recipes && recipes.length" #actions>
-          <ButtonIconAdd @click="onAddRecipeClick()" />
+          <ButtonIconAdd size="30" @click="onAddRecipeClick()" />
+        </template>
+        <template #actions-right>
+          <router-link to="/recipes" class="text-cyan-500 hover:text-cyan-600">
+            Voir tout
+          </router-link>
         </template>
       </TitleSection>
 

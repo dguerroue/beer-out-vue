@@ -128,7 +128,7 @@ const formData = ref<{
   type: BeerType[];
 }>({
   name: props.recipe.name,
-  notes: props.recipe.notes,
+  notes: props.recipe.description,
   type: props.recipe.type,
 });
 const beerTypes = ref<BeerType[]>([]);

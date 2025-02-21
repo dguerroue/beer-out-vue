@@ -1,17 +1,22 @@
 <template>
   <div class="navigation-bottom-wrapper mx-auto mb-2 flex w-11/12 items-center justify-evenly gap-6 rounded-2xl bg-white px-2 py-3">
-    <NavigationBottomButton>
+    <NavigationBottomButton @click="onHomeClick">
       <div class="group flex flex-col items-center">
-        <IconAddSquare size="30" class="group-hover:hidden group-active:hidden" />
-        <IconAddSquareSolid size="30" class="hidden group-hover:block group-active:block" />
-        <span class="text-center text-[9px]">Nouveaux brassin</span>
+        <IconHome size="30" />
+        <span class="text-center text-[9px]">Accueil</span>
       </div>
     </NavigationBottomButton>
 
+    <!-- <NavigationBottomButton>
+      <div class="group flex flex-col items-center">
+        <IconAddSquare size="30" />
+        <span class="text-center text-[9px]">Nouveaux brassin</span>
+      </div>
+    </NavigationBottomButton> -->
+
     <NavigationBottomButton @click="onAddRecipeClick">
       <div class="group flex flex-col items-center">
-        <IconAddSquare size="30" class="group-hover:hidden group-active:hidden" />
-        <IconAddSquareSolid size="30" class="hidden group-hover:block group-active:block" />
+        <IconAddSquare size="30" />
         <span class="text-center text-[9px]">Nouvelle recette</span>
       </div>
     </NavigationBottomButton>
@@ -31,11 +36,19 @@ import NavigationBottomButton from './NavigationBottomButton.vue';
 import { useRouter } from 'vue-router';
 import { useRecipesActions } from '@/composables/useRecipesActions';
 import IconAddSquareSolid from './icons/IconAddSquareSolid.vue';
+import ButtonIcon from './ButtonIcon.vue';
+import IconHome from './icons/IconHome.vue';
 
 const core = useCore();
 const router = useRouter();
 
 const recipesActions = useRecipesActions();
+
+function onHomeClick() {
+  router.push({
+    path: '/'
+  });
+}
 
 function onAddRecipeClick() {
   recipesActions.openBsFormNewRecipe();

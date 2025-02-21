@@ -5,7 +5,7 @@ export class Recipe {
     public id: string | undefined,
     public name: string,
     public imageUrl: string | undefined,
-    public notes: string,
+    public description: string,
     public type: BeerType[]
   ) {}
 }

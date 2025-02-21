@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex cursor-pointer flex-col items-center">
     <slot />
   </div>
 </template>

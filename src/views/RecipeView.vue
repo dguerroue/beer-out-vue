@@ -18,7 +18,7 @@
       </template>
     </TitleSection>
 
-    <ButtonGoBack label="Retour" @click="router.push('/')" />
+    <NavigationButtonGoBack label="Retour" />
 
     <div v-if="errorStatus === 404" class="flex grow flex-col items-center justify-center font-bold">
       <span class="text-7xl font-black">404</span>
@@ -55,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-10" v-html="recipe?.notes" />
+        <div class="mt-10" v-html="recipe?.description" />
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@
 
 <script lang="ts" setup>
 import ButtonBase from '@/components/ButtonBase.vue';
-import ButtonGoBack from '@/components/ButtonGoBack.vue';
+import NavigationButtonGoBack from '@/components/NavigationButtonGoBack.vue';
 import ButtonIcon from '@/components/ButtonIcon.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import TitleSection from '@/components/TitleSection.vue';

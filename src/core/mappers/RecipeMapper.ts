@@ -7,7 +7,7 @@ export class RecipeMapper {
       json.id,
       json.name,
       json.image ? `${json.collectionId}/${json.id}/${json.image}` : "",
-      json.notes,
+      json.description,
       json.expand?.type ? json.expand.type.map((type: Record<string, any>) => BeerType.fromJsonToBeerType(type)) : []
     );
   }

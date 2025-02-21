@@ -4,7 +4,7 @@
       Mon brassin
     </TitleSection>
 
-    <ButtonGoBack label="Retour" @click="router.push('/')" />
+    <NavigationButtonGoBack label="Retour" />
 
     <div class="mt-8 flex gap-4 px-2">
       <img :src="brassin?.imageUrl" :alt="`Image du brassin ${brassin?.name}`" class="size-24">
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import ButtonGoBack from '@/components/ButtonGoBack.vue';
+import NavigationButtonGoBack from '@/components/NavigationButtonGoBack.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import { useCore } from '@/composables/useCore';
 import type { Brassin } from '@/core/entities/Brassin';

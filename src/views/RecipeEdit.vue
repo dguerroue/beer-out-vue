@@ -4,7 +4,7 @@
       Ma Recette - Edit
     </TitleSection>
 
-    <ButtonGoBack label="Retour" @click="router.push(`/recipe/${recipeId}`)" />
+    <NavigationButtonGoBack label="Retour" />
 
     <div v-if="errorStatus === 404" class="flex grow flex-col items-center justify-center font-bold">
       <span class="text-7xl font-black">404</span>
@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import ButtonBase from '@/components/ButtonBase.vue';
 import ButtonConfirm from '@/components/ButtonConfirm.vue';
-import ButtonGoBack from '@/components/ButtonGoBack.vue';
+import NavigationButtonGoBack from '@/components/NavigationButtonGoBack.vue';
 import FormEditRecipe from '@/components/forms/FormEditRecipe.vue';
 import TitleSection from '@/components/TitleSection.vue';
 import { useCore } from '@/composables/useCore';
