@@ -39,22 +39,27 @@ const fiveFirstItems = computed(() => props.items.slice(0, 5));
 
 <style lang="scss" scoped>
 .vanilla-slider {
-  --child-width: calc((100%/1) - 9px); // = approx 2.2 elem shown
+  // show approx 1.2 elem
+  --child-width: calc((100%/1) - 25px);
   
-  @media (min-width: 200px) {
-    --child-width: calc((100%/2.2) - 9px); // = approx 2.2 elem shown
+  // show approx 2.2 elem 
+  @media (min-width: 300px) {
+    --child-width: calc((100%/2.2) - 9px); 
   }
 
-  @media (min-width: 424px) {
-    --child-width: calc((100%/3.2) - 8px); // = approx 3.2 elem shown
+  // show approx 3.2 elem
+  @media (min-width: 480px) {
+    --child-width: calc((100%/3.2) - 8px);
   }
 
+  // show approx 4.2 elem
   @media (min-width: 768px) {
-    --child-width: calc((100%/4.2) - 8px); // = approx 4.2 elem shown
+    --child-width: calc((100%/4.2) - 8px);
   }
 
+  // show approx 9 elem
   @media (min-width: 1024px) {
-    --child-width: calc((100%/6)); // = approx 6 elem shown
+    --child-width: calc((100%/6));
   }
 }
 </style>
